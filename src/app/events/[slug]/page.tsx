@@ -2,7 +2,7 @@ import { defineQuery, PortableText } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import { client } from "@/sanity/client";
+import { client } from "@/config/sanity/client";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
