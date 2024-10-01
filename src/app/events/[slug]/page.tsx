@@ -9,16 +9,7 @@ import { notFound } from "next/navigation";
 
 const options = { next: { revalidate: 60 } };
 
-const EVENT_QUERY = defineQuery(`*[
-    _type == "event" &&
-    slug.current == $slug
-  ][0]{
-  ...,
-  "date": coalesce(date, now()),
-  "doorsOpen": coalesce(doorsOpen, 0),
-  headline->,
-  venue->
-}`);
+const EVENT_QUERY = defineQuery(`*[_type == "cuisine" && title == 'tailandesa']`);
 
 const { projectId, dataset } = client.config();
 const urlFor = (source: SanityImageSource) =>
