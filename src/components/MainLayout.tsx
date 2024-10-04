@@ -6,12 +6,25 @@ import { Input } from '@/lib/design-system/input'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/lib/design-system/sheet'
 import { Button } from '@/lib/design-system/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/lib/design-system/dropdown-menu'
+import { defineQuery, FilteredResponseQueryOptions } from 'next-sanity'
+
+const options: FilteredResponseQueryOptions = {
+    next: {
+        revalidate: 60,
+    }
+};
+
+const CUISINE_QUERY = defineQuery(`*[_type == "cuisine" ]`);
 
 
-
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+export default function asyncMainLayout({ children }: { children: React.ReactNode }) {
     const [selectedCity, setSelectedCity] = useState('Medellín')
+
     const cities = ['Medellín', 'Envigado', 'Sabaneta', 'Llano Grande', 'Rionegro']
+    console.log(cities)
+
+
+
     const categories = [
         { name: 'Turbo Recomendado', icon: Utensils },
         { name: 'Comida Rápida', icon: Pizza },

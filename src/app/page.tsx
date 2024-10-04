@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { defineQuery } from "next-sanity";
+import { defineQuery, FilteredResponseQueryOptions } from "next-sanity";
 
 import { client } from "@/config/sanity/client";
 import {
@@ -11,13 +11,21 @@ import {
 	AwaitedReactNode,
 } from "react";
 import { CloudSnow } from "lucide-react";
+import { Cuisine, Restaurant } from "@/types/sanity";
 
-const options = { next: {} };
+const options: FilteredResponseQueryOptions = {
+	next: {
+		revalidate: 60,
+	}
+};
 
 const RESTAURANTS_QUERY = defineQuery(`*[_type == "restaurant" ]`);
+const CUISINE_QUERY = defineQuery(`*[_type == "cuisine" ]`);
 
 export default async function IndexPage() {
-	const restaurants = await client.fetch(RESTAURANTS_QUERY, {}, options);
+	const restaurants: Restaurant[] = await client.fetch(RESTAURANTS_QUERY, {}, options);
+	const cuisines: Cuisine[] = await client.fetch(CUISINE_QUERY, {}, options);
+	console.log("cuisines", cuisines);
 	console.log("restaurants", restaurants);
 
 
@@ -26,11 +34,7 @@ export default async function IndexPage() {
 		<div >
 			{restaurants.map((restaurant) => {
 				return (
-					<Link key={restaurant._id} href={`/restaurants`}>
-						<a>
-							{restaurant.name}
-						</a>
-					</Link>
+					<div>{restaurant.name}</div>
 				);
 			})
 			}

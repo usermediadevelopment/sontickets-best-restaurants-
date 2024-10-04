@@ -61,37 +61,48 @@ export type SanityFileAsset = {
   source?: SanityAssetSourceData;
 };
 
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
+export type SocialMedia = {
+  _type: "socialMedia";
+  platform?: "facebook" | "instagram" | "twitter" | "linkedin";
+  url?: string;
 };
 
-export type Event = {
+export type OperatingHour = {
+  _type: "operatingHour";
+  day?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+  opensAt?: string;
+  closesAt?: string;
+  closed?: boolean;
+};
+
+export type Review = {
   _id: string;
-  _type: "event";
+  _type: "review";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  reviewerName?: string;
+  rating?: number;
+  reviewText?: string;
+  date?: string;
+  restaurant?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "restaurant";
+  };
+};
+
+export type MenuItem = {
+  _id: string;
+  _type: "menuItem";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   name?: string;
-  slug?: Slug;
-  eventType?: "in-person" | "virtual";
-  date?: string;
-  doorsOpen?: number;
-  venue?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "venue";
-  };
-  headline?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "artist";
-  };
-  image?: {
+  description?: string;
+  price?: number;
+  photo?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -102,12 +113,102 @@ export type Event = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  details?: Array<{
-    title?: string;
-    body?: string;
+  dietaryInfo?: Array<string>;
+  restaurant?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "restaurant";
+  };
+};
+
+export type Cuisine = {
+  _id: string;
+  _type: "cuisine";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+};
+
+export type Restaurant = {
+  _id: string;
+  _type: "restaurant";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  reservationUrl?: string;
+  slug?: Slug;
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  description?: string;
+  cuisine?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "cuisine";
+  }>;
+  address?: string;
+  location?: Geopoint;
+  contact?: {
+    phone?: string;
+    email?: string;
+    website?: string;
+    socialMedia?: Array<{
+      _key: string;
+    } & SocialMedia>;
+  };
+  operatingHours?: Array<{
+    _key: string;
+  } & OperatingHour>;
+  menu?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "menuItem";
+  }>;
+  priceRange?: "$" | "$$" | "$$$" | "$$$$";
+  photos?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
     _key: string;
   }>;
-  tickets?: string;
+  reviews?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "review";
+  }>;
+  amenities?: Array<string>;
+  dietaryOptions?: Array<string>;
+  paymentOptions?: Array<string>;
+};
+
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
 };
 
 export type SanityImageCrop = {
@@ -167,73 +268,27 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type Artist = {
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-};
-
-export type Venue = {
-  _id: string;
-  _type: "venue";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-};
-
 export type Slug = {
   _type: "slug";
   current?: string;
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Event | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Artist | Venue | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | SocialMedia | OperatingHour | Review | MenuItem | Cuisine | Restaurant | Geopoint | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../sontickets-best-restaurants/src/app/page.tsx
-// Variable: EVENTS_QUERY
-// Query: *[  _type == "event"  && defined(slug.current)]{_id, name, slug, date}|order(date desc)
-export type EVENTS_QUERYResult = Array<{
+// Variable: RESTAURANTS_QUERY
+// Query: *[_type == "restaurant" ]
+export type RESTAURANTS_QUERYResult = Array<{
   _id: string;
-  name: string | null;
-  slug: Slug | null;
-  date: string | null;
-}>;
-
-// Source: ../sontickets-best-restaurants/src/app/events/[slug]/page.tsx
-// Variable: EVENT_QUERY
-// Query: *[    _type == "event" &&    slug.current == $slug  ][0]{  ...,  "date": coalesce(date, now()),  "doorsOpen": coalesce(doorsOpen, 0),  headline->,  venue->}
-export type EVENT_QUERYResult = {
-  _id: string;
-  _type: "event";
+  _type: "restaurant";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   name?: string;
+  reservationUrl?: string;
   slug?: Slug;
-  eventType?: "in-person" | "virtual";
-  date: string;
-  doorsOpen: number | 0;
-  venue: {
-    _id: string;
-    _type: "venue";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-  } | null;
-  headline: {
-    _id: string;
-    _type: "artist";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-  } | null;
-  image?: {
+  logo?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -244,19 +299,76 @@ export type EVENT_QUERYResult = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  details?: Array<{
-    title?: string;
-    body?: string;
+  description?: string;
+  cuisine?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "cuisine";
+  }>;
+  address?: string;
+  location?: Geopoint;
+  contact?: {
+    phone?: string;
+    email?: string;
+    website?: string;
+    socialMedia?: Array<{
+      _key: string;
+    } & SocialMedia>;
+  };
+  operatingHours?: Array<{
+    _key: string;
+  } & OperatingHour>;
+  menu?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "menuItem";
+  }>;
+  priceRange?: "$" | "$$" | "$$$" | "$$$$";
+  photos?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
     _key: string;
   }>;
-  tickets?: string;
-} | null;
+  reviews?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "review";
+  }>;
+  amenities?: Array<string>;
+  dietaryOptions?: Array<string>;
+  paymentOptions?: Array<string>;
+}>;
+
+// Source: ../sontickets-best-restaurants/src/app/events/[slug]/page.tsx
+// Variable: EVENT_QUERY
+// Query: *[_type == "cuisine" && title == 'tailandesa']
+export type EVENT_QUERYResult = Array<{
+  _id: string;
+  _type: "cuisine";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[\n  _type == \"event\"\n  && defined(slug.current)\n]{_id, name, slug, date}|order(date desc)": EVENTS_QUERYResult;
-    "*[\n    _type == \"event\" &&\n    slug.current == $slug\n  ][0]{\n  ...,\n  \"date\": coalesce(date, now()),\n  \"doorsOpen\": coalesce(doorsOpen, 0),\n  headline->,\n  venue->\n}": EVENT_QUERYResult;
+    "*[_type == \"restaurant\" ]": RESTAURANTS_QUERYResult;
+    "*[_type == \"cuisine\" && title == 'tailandesa']": EVENT_QUERYResult;
   }
 }
