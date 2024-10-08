@@ -63,16 +63,8 @@ export type SanityFileAsset = {
 
 export type SocialMedia = {
   _type: "socialMedia";
-  platform?: "facebook" | "instagram" | "twitter" | "linkedin";
+  platform?: "Facebook" | "Twitter" | "Instagram" | "LinkedIn" | "TikTok" | "YouTube";
   url?: string;
-};
-
-export type OperatingHour = {
-  _type: "operatingHour";
-  day?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
-  opensAt?: string;
-  closesAt?: string;
-  closed?: boolean;
 };
 
 export type Review = {
@@ -93,13 +85,17 @@ export type Review = {
   };
 };
 
+export type OpeningHour = {
+  _type: "openingHour";
+  day?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+  openingTime?: string;
+  closingTime?: string;
+  isClosed?: boolean;
+};
+
 export type MenuItem = {
-  _id: string;
   _type: "menuItem";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
+  dishName?: string;
   description?: string;
   price?: number;
   photo?: {
@@ -113,73 +109,54 @@ export type MenuItem = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  dietaryInfo?: Array<string>;
+  allergens?: Array<string>;
+  isVegetarian?: boolean;
+  isVegan?: boolean;
+  isGlutenFree?: boolean;
+};
+
+export type MenuCategory = {
+  _type: "menuCategory";
+  categoryName?: string;
+  items?: Array<{
+    _key: string;
+  } & MenuItem>;
+};
+
+export type Location = {
+  _id: string;
+  _type: "location";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
   restaurant?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "restaurant";
   };
-};
-
-export type Cuisine = {
-  _id: string;
-  _type: "cuisine";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-};
-
-export type Restaurant = {
-  _id: string;
-  _type: "restaurant";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  reservationUrl?: string;
-  slug?: Slug;
-  logo?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  description?: string;
-  cuisine?: Array<{
+  country?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "cuisine";
-  }>;
+    [internalGroqTypeReferenceTo]?: "country";
+  };
+  city?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "city";
+  };
+  area?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "area";
+  };
   address?: string;
-  location?: Geopoint;
-  contact?: {
-    phone?: string;
-    email?: string;
-    website?: string;
-    socialMedia?: Array<{
-      _key: string;
-    } & SocialMedia>;
-  };
-  operatingHours?: Array<{
-    _key: string;
-  } & OperatingHour>;
-  menu?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "menuItem";
-  }>;
-  priceRange?: "$" | "$$" | "$$$" | "$$$$";
+  postalCode?: string;
+  geoLocation?: Geopoint;
   photos?: Array<{
     asset?: {
       _ref: string;
@@ -192,16 +169,23 @@ export type Restaurant = {
     _type: "image";
     _key: string;
   }>;
-  reviews?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
+  menu?: Array<{
     _key: string;
-    [internalGroqTypeReferenceTo]?: "review";
-  }>;
-  amenities?: Array<string>;
-  dietaryOptions?: Array<string>;
-  paymentOptions?: Array<string>;
+  } & MenuCategory>;
+  schedule?: Array<{
+    _key: string;
+  } & OpeningHour>;
+  contact?: ContactInfo;
+  services?: Array<string>;
+  reservation?: boolean;
+  seo?: Seo;
+};
+
+export type ContactInfo = {
+  _type: "contactInfo";
+  phone?: string;
+  email?: string;
+  fax?: string;
 };
 
 export type Geopoint = {
@@ -209,6 +193,107 @@ export type Geopoint = {
   lat?: number;
   lng?: number;
   alt?: number;
+};
+
+export type Area = {
+  _id: string;
+  _type: "area";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  city?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "city";
+  };
+  slug?: Slug;
+};
+
+export type Country = {
+  _id: string;
+  _type: "country";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  code?: string;
+  continent?: string;
+};
+
+export type Restaurant = {
+  _id: string;
+  _type: "restaurant";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  website?: string;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "category";
+  }>;
+  contactEmail?: string;
+  socialMedia?: Array<{
+    _key: string;
+  } & SocialMedia>;
+  seo?: Seo;
+};
+
+export type Seo = {
+  _type: "seo";
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: Array<string>;
+};
+
+export type City = {
+  _id: string;
+  _type: "city";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+};
+
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  icon?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
 };
 
 export type SanityImageCrop = {
@@ -274,7 +359,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | SocialMedia | OperatingHour | Review | MenuItem | Cuisine | Restaurant | Geopoint | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | SocialMedia | Review | OpeningHour | MenuItem | MenuCategory | Location | ContactInfo | Geopoint | Area | Country | Restaurant | Seo | City | Category | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../sontickets-best-restaurants/src/app/page.tsx
 // Variable: RESTAURANTS_QUERY
@@ -286,8 +371,8 @@ export type RESTAURANTS_QUERYResult = Array<{
   _updatedAt: string;
   _rev: string;
   name?: string;
-  reservationUrl?: string;
   slug?: Slug;
+  description?: string;
   logo?: {
     asset?: {
       _ref: string;
@@ -299,70 +384,25 @@ export type RESTAURANTS_QUERYResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
-  description?: string;
-  cuisine?: Array<{
+  website?: string;
+  categories?: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     _key: string;
-    [internalGroqTypeReferenceTo]?: "cuisine";
+    [internalGroqTypeReferenceTo]?: "category";
   }>;
-  address?: string;
-  location?: Geopoint;
-  contact?: {
-    phone?: string;
-    email?: string;
-    website?: string;
-    socialMedia?: Array<{
-      _key: string;
-    } & SocialMedia>;
-  };
-  operatingHours?: Array<{
+  contactEmail?: string;
+  socialMedia?: Array<{
     _key: string;
-  } & OperatingHour>;
-  menu?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "menuItem";
-  }>;
-  priceRange?: "$" | "$$" | "$$$" | "$$$$";
-  photos?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  }>;
-  reviews?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "review";
-  }>;
-  amenities?: Array<string>;
-  dietaryOptions?: Array<string>;
-  paymentOptions?: Array<string>;
+  } & SocialMedia>;
+  seo?: Seo;
 }>;
 
 // Source: ../sontickets-best-restaurants/src/app/events/[slug]/page.tsx
 // Variable: EVENT_QUERY
 // Query: *[_type == "cuisine" && title == 'tailandesa']
-export type EVENT_QUERYResult = Array<{
-  _id: string;
-  _type: "cuisine";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-}>;
+export type EVENT_QUERYResult = Array<never>;
 
 // Query TypeMap
 import "@sanity/client";
