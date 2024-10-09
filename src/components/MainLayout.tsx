@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Search, ChevronDown, Menu, MapPin, Instagram } from "lucide-react";
 import { Input } from "@/lib/design-system/input";
 import {
@@ -20,18 +20,40 @@ import {
 } from "@/lib/design-system/dropdown-menu";
 import { useCities } from "@/hooks/useCities";
 import { useCategories } from "@/hooks/useCategories";
-import { City } from "@/types/sanity";
+import { Category, City } from "@/types/sanity";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [selectedCity, setSelectedCity] = useState<City>();
-
   const cities = useCities();
   const categories = useCategories();
 
+  const {
+    preferences: { city: citySelectedId, category: categorySelectedId },
+    setCity,
+    setCategory,
+  } = useUserPreferences();
+
+  const citySelected = useMemo(() => {
+    return cities.find((c) => c._id === citySelectedId);
+  }, [cities, citySelectedId]);
+
+  const handleCityChange = (city: City) => {
+    setCity(city._id.toString());
+  };
+
+  const handleCategoryChange = (category: Category) => {
+    setCategory(category._id.toString());
+  };
+
+  useEffect(() => {
+    if (cities.length > 0 && !citySelectedId) {
+      setCity(cities[0]._id);
+    }
+  }, [cities, citySelectedId]);
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-white border-b border-gray-200">
@@ -82,7 +104,7 @@ export default function MainLayout({
                     className="flex items-center px-3 py-2 text-sm border rounded-[5px]"
                   >
                     <MapPin size={16} className="mr-2" />
-                    <span>{selectedCity?.name}</span>
+                    <span>{citySelected?.name}</span>
                     <ChevronDown size={16} className="ml-2" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -90,7 +112,7 @@ export default function MainLayout({
                   {cities.map((city) => (
                     <DropdownMenuItem
                       key={city._id}
-                      onSelect={() => setSelectedCity(city)}
+                      onSelect={() => handleCityChange(city)}
                       className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     >
                       {city.name}
@@ -116,23 +138,34 @@ export default function MainLayout({
         <nav className="bg-gray-50" aria-label="Filtros de búsqueda">
           <div className="container mx-auto px-4 py-4 overflow-x-auto">
             <div className="flex space-x-6 min-w-max">
-              {categories.map((category, index) => (
-                <button
-                  key={index}
-                  className="flex flex-col items-center space-y-1 focus:outline-none group"
-                >
-                  <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center group-hover:bg-purple-100 transition-colors"></div>
-                  <span className="text-xs text-gray-600 group-hover:text-purple-600 transition-colors">
-                    {category.name}
-                  </span>
-                </button>
-              ))}
+              {categories.map((category, index) => {
+                const bg =
+                  category._id === categorySelectedId
+                    ? "bg-purple-600"
+                    : "bg-gray-200";
+                return (
+                  <button
+                    key={index}
+                    onClick={() => handleCategoryChange(category)}
+                    className="flex flex-col items-center space-y-1 focus:outline-none group"
+                  >
+                    <div
+                      className={`w-16 h-16 rounded-full ${bg} flex items-center justify-center group-hover:bg-purple-100 transition-colors`}
+                    ></div>
+                    <span
+                      className={`text-xs ${category._id === categorySelectedId ? "text-purple-600" : "text-gray-600"} group-hover:text-purple-600 transition-colors`}
+                    >
+                      {category.name}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </nav>
       </header>
 
-      <main className="flex bg-gray-100 min-h-screen flex-col px-24 gap-12">
+      <main className="flex bg-gray-100 min-h-screen flex-col md:px-24 gap-12">
         {children}
       </main>
 
