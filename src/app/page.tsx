@@ -1,7 +1,9 @@
+"use client";
 import { defineQuery, FilteredResponseQueryOptions } from "next-sanity";
 
 import { client } from "@/config/sanity/client";
-import { Restaurant } from "@/types/sanity";
+import { LocationWithRestaurant } from "@/types/sanity";
+import { useEffect, useState } from "react";
 
 const options: FilteredResponseQueryOptions = {
   next: {
@@ -9,23 +11,48 @@ const options: FilteredResponseQueryOptions = {
   },
 };
 
-const RESTAURANTS_QUERY = defineQuery(`*[_type == "restaurant" ]`);
-const CITIES_QUERY = defineQuery(`*[_type == "city" ]`);
-export default async function IndexPage() {
-  const restaurants: Restaurant[] = await client.fetch(
-    RESTAURANTS_QUERY,
-    {},
-    options
-  );
+const LOCATIONS_QUERY = defineQuery(`
+	*[_type == "location" && city._ref == "city-portside"]{
+	...,
+	 "restaurant": restaurant-> {
+			_id,
+			name,
+			description,
+			// Add other fields you need from the restaurant document
+	   }
+	}
+  `);
 
-  const cities = await client.fetch(CITIES_QUERY, {}, options);
-  console.log("citiesdf ", cities);
+const IndexPage = () => {
+  const [locations, setLocations] = useState<LocationWithRestaurant[]>([]);
+
+  const getLocations = async () => {
+    const locations: LocationWithRestaurant[] = await client.fetch(
+      LOCATIONS_QUERY,
+      {},
+      options
+    );
+    setLocations(locations);
+  };
+
+  useEffect(() => {
+    getLocations();
+  }, []);
 
   return (
     <div>
-      {restaurants.map((restaurant) => {
-        return <div key={restaurant._id}>{restaurant.name}</div>;
+      {locations.map((location) => {
+        const restaurant = location.restaurant;
+        return (
+          <div key={location._id}>
+            {restaurant?.name}
+            <div>{location.address}</div>
+            {location.name}
+          </div>
+        );
       })}
     </div>
   );
-}
+};
+
+export default IndexPage;
