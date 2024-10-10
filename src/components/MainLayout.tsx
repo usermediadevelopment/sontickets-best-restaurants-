@@ -22,6 +22,7 @@ import { useCities } from "@/hooks/useCities";
 import { useCategories } from "@/hooks/useCategories";
 import { Category, City } from "@/types/sanity";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
+import { useParams, useRouter } from "next/navigation";
 
 export default function MainLayout({
   children,
@@ -30,6 +31,8 @@ export default function MainLayout({
 }) {
   const cities = useCities();
   const categories = useCategories();
+  const router = useRouter();
+  const params = useParams();
 
   const {
     preferences: { city, category },
@@ -43,10 +46,18 @@ export default function MainLayout({
 
   const handleCityChange = (city: City) => {
     setCity(city);
+    let newPath = `/es/${city?.slug?.current}`;
+    if (params.category) {
+      newPath = `/es/${city?.slug?.current}/categoria/${params.category}`;
+    }
+
+    router.push(newPath);
   };
 
   const handleCategoryChange = (category: Category) => {
     setCategory(category);
+    const newPath = `/es/${params.city || "todas-ciudades"}/categoria/${category?.slug?.current}`;
+    router.push(newPath);
   };
 
   useEffect(() => {
@@ -56,8 +67,8 @@ export default function MainLayout({
   }, [cities, category]);
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-white border-b border-gray-200">
-        <div className="px-4 md:px-20 py-3">
+      <header className="bg-white border-b border-gray-200 z-50 fixed w-full">
+        <div className="px-4 md:px-20 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <h1 className="text-xl md:text-2xl font-bold text-purple-600">
@@ -104,7 +115,7 @@ export default function MainLayout({
                     className="flex items-center px-3 py-2 text-sm border rounded-[5px]"
                   >
                     <MapPin size={16} className="mr-2" />
-                    <span>{citySelected?.name}</span>
+                    <span>{citySelected?.name ?? "Ciudad"}</span>
                     <ChevronDown size={16} className="ml-2" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -135,35 +146,39 @@ export default function MainLayout({
             </div>
           </div>
         </div>
-        <nav className="bg-gray-50" aria-label="Filtros de búsqueda">
-          <div className="container mx-auto px-4 py-4 overflow-x-auto">
-            <div className="flex space-x-6 min-w-max">
-              {categories.map((cat, index) => {
-                const bg =
-                  cat._id === category._id ? "bg-purple-600" : "bg-gray-200";
-                return (
-                  <button
-                    key={index}
-                    onClick={() => handleCategoryChange(cat)}
-                    className="flex flex-col items-center space-y-1 focus:outline-none group"
-                  >
-                    <div
-                      className={`w-16 h-16 rounded-full ${bg} flex items-center justify-center group-hover:bg-purple-100 transition-colors`}
-                    ></div>
-                    <span
-                      className={`text-xs ${cat._id === category._id ? "text-purple-600" : "text-gray-600"} group-hover:text-purple-600 transition-colors`}
+        {!params.restaurantSlug && (
+          <nav className="bg-gray-50" aria-label="Filtros de búsqueda">
+            <div className="container mx-auto px-4 py-4 overflow-x-auto">
+              <div className="flex space-x-6 min-w-max">
+                {categories.map((cat, index) => {
+                  const bg =
+                    cat._id === category._id ? "bg-purple-600" : "bg-gray-200";
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleCategoryChange(cat)}
+                      className="flex flex-col items-center space-y-1 focus:outline-none group"
                     >
-                      {cat.name}
-                    </span>
-                  </button>
-                );
-              })}
+                      <div
+                        className={`w-16 h-16 rounded-full ${bg} flex items-center justify-center group-hover:bg-purple-100 transition-colors`}
+                      ></div>
+                      <span
+                        className={`text-xs ${cat._id === category._id ? "text-purple-600" : "text-gray-600"} group-hover:text-purple-600 transition-colors`}
+                      >
+                        {cat.name}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </nav>
+          </nav>
+        )}
       </header>
 
-      <main className="flex bg-gray-100 min-h-screen flex-col md:px-24 gap-12">
+      <main
+        className={`flex bg-gray-100 min-h-screen flex-col md:px-24 gap-12 ${params.restaurantSlug ? "pt-20" : "pt-52"}`}
+      >
         {children}
       </main>
 

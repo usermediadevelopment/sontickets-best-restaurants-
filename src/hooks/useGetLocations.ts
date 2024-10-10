@@ -1,26 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { client } from "@/config/sanity/client";
-import { Area, Category, City, LocationWithRestaurant } from "@/types/sanity";
-import { defineQuery } from "next-sanity";
+
+import { LocationWithRestaurant } from "@/types/sanity.custom.type";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type UseGetLocationsProps = {
-  citySlug: string;
-  areaSlug?: string;
-  categorySlug: string;
-};
-
-const useGetLocations = ({
-  citySlug,
-  areaSlug,
-  categorySlug,
-}: UseGetLocationsProps) => {
+const useGetLocations = () => {
   const [locations, setLocations] = useState<LocationWithRestaurant[]>([]);
+
+  const params = useParams();
+
+  const citySlug = params.city || "todas-ciudades";
+  const categorySlug = params.category || "todas-categorias";
 
   const getLocations = async () => {
     const categoryQuery = `&& 
         "${categorySlug}" in restaurant->categories[]->slug.current`;
-    const areaQuery = `&&  area->slug.current == "${areaSlug}"`;
+    /*     const areaQuery = `&&  area->slug.current == "${areaSlug}"`; */
 
     const cityQuery = `&& city->slug.current == "${citySlug}"`;
     const LOCATIONS_QUERY = `
@@ -28,6 +24,9 @@ const useGetLocations = ({
         _type == "location"  ${citySlug && citySlug != "todas-ciudades" ? cityQuery : ""}  ${categorySlug && categorySlug != "todas-categorias" ? categoryQuery : ""}
         ]{
         ...,
+        "city": city->{
+        ...
+        },
         photos[]{
             _key,
             _type,
@@ -46,12 +45,10 @@ const useGetLocations = ({
         }
       `;
 
-    console.log(LOCATIONS_QUERY);
+    //console.log(LOCATIONS_QUERY);
 
     const locations: LocationWithRestaurant[] =
       await client.fetch(LOCATIONS_QUERY);
-
-    console.log(locations);
 
     setLocations(locations);
   };
