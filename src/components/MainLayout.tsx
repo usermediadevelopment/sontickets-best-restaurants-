@@ -32,28 +32,28 @@ export default function MainLayout({
   const categories = useCategories();
 
   const {
-    preferences: { city: citySelectedId, category: categorySelectedId },
+    preferences: { city, category },
     setCity,
     setCategory,
   } = useUserPreferences();
 
   const citySelected = useMemo(() => {
-    return cities.find((c) => c._id === citySelectedId);
-  }, [cities, citySelectedId]);
+    return cities.find((c) => c._id === city._id);
+  }, [cities, city]);
 
   const handleCityChange = (city: City) => {
-    setCity(city._id.toString());
+    setCity(city);
   };
 
   const handleCategoryChange = (category: Category) => {
-    setCategory(category._id.toString());
+    setCategory(category);
   };
 
   useEffect(() => {
-    if (cities.length > 0 && !citySelectedId) {
-      setCity(cities[0]._id);
+    if (cities.length > 0 && !category) {
+      setCity(cities[0]);
     }
-  }, [cities, citySelectedId]);
+  }, [cities, category]);
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-white border-b border-gray-200">
@@ -138,24 +138,22 @@ export default function MainLayout({
         <nav className="bg-gray-50" aria-label="Filtros de búsqueda">
           <div className="container mx-auto px-4 py-4 overflow-x-auto">
             <div className="flex space-x-6 min-w-max">
-              {categories.map((category, index) => {
+              {categories.map((cat, index) => {
                 const bg =
-                  category._id === categorySelectedId
-                    ? "bg-purple-600"
-                    : "bg-gray-200";
+                  cat._id === category._id ? "bg-purple-600" : "bg-gray-200";
                 return (
                   <button
                     key={index}
-                    onClick={() => handleCategoryChange(category)}
+                    onClick={() => handleCategoryChange(cat)}
                     className="flex flex-col items-center space-y-1 focus:outline-none group"
                   >
                     <div
                       className={`w-16 h-16 rounded-full ${bg} flex items-center justify-center group-hover:bg-purple-100 transition-colors`}
                     ></div>
                     <span
-                      className={`text-xs ${category._id === categorySelectedId ? "text-purple-600" : "text-gray-600"} group-hover:text-purple-600 transition-colors`}
+                      className={`text-xs ${cat._id === category._id ? "text-purple-600" : "text-gray-600"} group-hover:text-purple-600 transition-colors`}
                     >
-                      {category.name}
+                      {cat.name}
                     </span>
                   </button>
                 );

@@ -460,6 +460,13 @@ declare module "@sanity/client" {
   }
 }
 
+type Photo = {
+  asset: {
+    url: string;
+  };
+};
+
 export type LocationWithRestaurant = Omit<Location, "restaurant"> & {
-  restaurant?: Restaurant;
+  restaurant?: Restaurant & { logoUrl: string };
+  photos: Photo[];
 };

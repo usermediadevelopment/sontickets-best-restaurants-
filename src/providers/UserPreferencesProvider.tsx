@@ -1,17 +1,18 @@
 "use client";
+import { Area, Category, City } from "@/types/sanity";
 import React, { createContext, useReducer, ReactNode } from "react";
 
 type UserPreferences = {
-  city: string;
-  category: string;
-  area: string;
+  city: City;
+  category: Category;
+  area: Area;
 };
 
 type UserPreferencesContextType = {
   preferences: UserPreferences;
-  setCity: (city: string) => void;
-  setCategory: (category: string) => void;
-  setArea: (area: string) => void;
+  setCity: (city: City) => void;
+  setCategory: (category: Category) => void;
+  setArea: (area: Area) => void;
 };
 
 export const UserPreferencesContext = createContext<
@@ -19,9 +20,9 @@ export const UserPreferencesContext = createContext<
 >(undefined);
 
 type Action =
-  | { type: "SET_CITY"; payload: string }
-  | { type: "SET_CATEGORY"; payload: string }
-  | { type: "SET_AREA"; payload: string };
+  | { type: "SET_CITY"; payload: City }
+  | { type: "SET_CATEGORY"; payload: Category }
+  | { type: "SET_AREA"; payload: Area };
 
 const preferencesReducer = (
   state: UserPreferences,
@@ -45,17 +46,15 @@ export const UserPreferencesProvider = ({
   children: ReactNode;
 }) => {
   const [preferences, dispatch] = useReducer(preferencesReducer, {
-    city: "",
-    category: "",
-    area: "",
+    city: {} as City,
+    category: {} as Category,
+    area: {} as Area,
   });
 
-  const setCity = (city: string) =>
-    dispatch({ type: "SET_CITY", payload: city });
-  const setCategory = (category: string) =>
+  const setCity = (city: City) => dispatch({ type: "SET_CITY", payload: city });
+  const setCategory = (category: Category) =>
     dispatch({ type: "SET_CATEGORY", payload: category });
-  const setArea = (area: string) =>
-    dispatch({ type: "SET_AREA", payload: area });
+  const setArea = (area: Area) => dispatch({ type: "SET_AREA", payload: area });
 
   return (
     <UserPreferencesContext.Provider

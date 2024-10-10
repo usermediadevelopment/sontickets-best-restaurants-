@@ -5,17 +5,28 @@ import useGetLocations from "@/hooks/useGetLocations";
 import Image from "next/image";
 import { urlFor } from "@/config/sanity/image";
 
-const IndexPage = () => {
+export default function IndexPage({
+  params,
+}: {
+  params: { city: string; category: string };
+}) {
+  const citySlug = params.city || "todas-ciudades";
+  const categorySlug = params.category || "todas-categorias";
+
+  console.log(citySlug, categorySlug);
   const {
     preferences: { city, category },
   } = useUserPreferences();
 
-  const locations = useGetLocations(city, category);
+  const locations = useGetLocations({
+    citySlug,
+    categorySlug,
+  });
 
   return (
     <div className="mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-6 text-center">
-        Mejores Restaurantes en {city}
+        Mejores Restaurantes en {city.name}
       </h2>
       <div
         id="restaurant-feed"
@@ -40,7 +51,7 @@ const IndexPage = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-[150px] h-[150px] bg-white rounded-full flex items-center justify-center shadow-md">
                     <Image
-                      src={restaurant?.logoUrl}
+                      src={restaurant?.logoUrl ?? ""}
                       alt={`Logo de`}
                       width={150}
                       height={150}
@@ -74,6 +85,4 @@ const IndexPage = () => {
       </div>
     </div>
   );
-};
-
-export default IndexPage;
+}
