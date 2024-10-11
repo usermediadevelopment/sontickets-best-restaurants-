@@ -10,7 +10,7 @@ export default function IndexPage() {
 
   if (params.lang == "pre-registro") {
     return (
-      <div>
+      <div className="md:mx-auto">
         <iframe
           className="w-full md:w-[1000px] h-[1000px] md:h-[1000px] mb-20"
           src="https://docs.google.com/forms/d/e/1FAIpQLSdTYd3ccL_hLZCsuN5qF2xQC-DKG5El7uIlOpnRMRe1HWiogQ/viewform?embedded=true"
