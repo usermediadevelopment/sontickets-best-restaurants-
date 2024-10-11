@@ -99,11 +99,14 @@ export default function MainLayout({
                     <SheetTitle>Menu</SheetTitle>
                   </SheetHeader>
                   <div className="py-4">
-                    <Button variant="ghost" className="w-full justify-start">
+                    <Button
+                      onClick={() => {
+                        window.open("https://app.sontickets.com/", "_blank");
+                      }}
+                      variant="ghost"
+                      className="w-full justify-start"
+                    >
                       Iniciar sesión
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start">
-                      Registrarme
                     </Button>
                   </div>
                 </SheetContent>
@@ -131,13 +134,11 @@ export default function MainLayout({
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+
               <Button
-                variant="outline"
-                className="hidden md:inline-flex px-3 py-2 text-sm text-purple-600 border border-purple-600 rounded-[5px]"
-              >
-                Registrarme
-              </Button>
-              <Button
+                onClick={() => {
+                  window.open("https://app.sontickets.com/", "_blank");
+                }}
                 variant="outline"
                 className="hidden md:inline-flex px-3 py-2 text-sm text-purple-600 border border-purple-600 rounded-[5px]"
               >
