@@ -146,7 +146,7 @@ export default function MainLayout({
             </div>
           </div>
         </div>
-        {!params.restaurantSlug && (
+        {!params.restaurantSlug && params?.lang != "pre-registro" && (
           <nav className="bg-gray-50" aria-label="Filtros de búsqueda">
             <div className="container mx-auto px-4 py-4 overflow-x-auto">
               <div className="flex space-x-6 min-w-max">
@@ -177,7 +177,7 @@ export default function MainLayout({
       </header>
 
       <main
-        className={`flex bg-gray-100 min-h-screen flex-col md:px-24 gap-12 ${params.restaurantSlug ? "pt-20" : "pt-52"}`}
+        className={`flex bg-gray-100 min-h-screen flex-col md:px-24 gap-12 ${params.restaurantSlug ? "pt-20" : params.lang == "pre-registro" ? "pt-40" : "pt-52"}`}
       >
         {children}
       </main>
