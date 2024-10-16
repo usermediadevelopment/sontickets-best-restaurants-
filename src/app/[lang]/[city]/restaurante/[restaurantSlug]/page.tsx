@@ -1,11 +1,10 @@
 "use client";
 
 import useGetLocation from "@/hooks/useGetLocation";
-import { Badge } from "@/lib/design-system/badge";
 import { Button } from "@/lib/design-system/button";
 import { Card, CardContent } from "@/lib/design-system/card";
 
-import { ArrowLeft, Heart, Share2, MapPin, Clock, Phone } from "lucide-react";
+import { ArrowLeft, Share2, MapPin, Clock, Phone } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import GoogleMapComponent from "@/components/GoogleMapComponent";
@@ -30,7 +29,7 @@ export default function RestaurantPage({
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <span className="text-primary">
-          Ver todos los restaurantes en Bogotá
+          Ver todos los restaurantes
         </span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
@@ -74,14 +73,7 @@ export default function RestaurantPage({
             <CardContent className="p-6">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex space-x-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="rounded-md p-1"
-                  >
-                    <Heart className="h-4 w-4" />
-                    <span className="sr-only">Guardar restaurante</span>
-                  </Button>
+                
                   <Button
                     variant="outline"
                     size="icon"
@@ -105,17 +97,6 @@ export default function RestaurantPage({
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 mb-6">
-                <Badge variant="secondary" className="p-1">
-                  Colombiana
-                </Badge>
-                <Badge variant="secondary" className="p-1">
-                  Tradicional
-                </Badge>
-                <Badge variant="secondary" className="p-1">
-                  Económico
-                </Badge>
-              </div>
               <div className="space-y-4 mb-6">
                 <div className="flex items-center">
                   <MapPin className="h-5 w-5 text-primary mr-2" />
@@ -123,7 +104,16 @@ export default function RestaurantPage({
                 </div>
                 <div className="flex items-center">
                   <Clock className="h-5 w-5 text-primary mr-2" />
-                  <p className="text-gray-600">Abierto: 7:00 AM - 9:00 PM</p>
+                  <div className="p-4">
+                    <ul className="space-y-2">
+                      {location?.schedule?.map((hour) => (
+                        <li key={hour.day} className="flex justify-between">
+                          <span className="font-medium">{hour.day}</span>
+                          <span>{hour.day}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 text-primary mr-2" />
