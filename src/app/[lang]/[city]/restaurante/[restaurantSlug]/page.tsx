@@ -4,7 +4,7 @@ import useGetLocation from "@/hooks/useGetLocation";
 import { Button } from "@/lib/design-system/button";
 import { Card, CardContent } from "@/lib/design-system/card";
 
-import { ArrowLeft, Share2, MapPin, Clock, Phone } from "lucide-react";
+import { ArrowLeft, Share2, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import GoogleMapComponent from "@/components/GoogleMapComponent";
@@ -32,8 +32,8 @@ export default function RestaurantPage({
           Ver todos los restaurantes
         </span>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
-        <div className="flex flex-col gap-2">
+      <div className="flex flex-col md:flex-row  gap-5">
+        <div className="flex flex-col md:flex-grow gap-2">
           <div className="relative h-96 rounded-lg">
             <Image
               src={
@@ -68,9 +68,9 @@ export default function RestaurantPage({
             {location?.restaurant?.description}
           </p>
         </div>
-        <div className="flex flex-col relative">
-          <Card className="rounded-lg bg-slate-50  h-auto md:fixed top-40">
-            <CardContent className="p-6">
+        <div className="flex flex-col md:w-[300px]">
+          <Card className="rounded-lg bg-slate-50 flex h-auto md:fixed  md:w-[300px]  top-40 ">
+            <CardContent className="p-6  w-full">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex space-x-2">
                 
@@ -115,13 +115,12 @@ export default function RestaurantPage({
                     </ul>
                   </div>
                 </div>
+                
                 <div className="flex items-center">
-                  <Phone className="h-5 w-5 text-primary mr-2" />
-                  <p className="text-gray-600">
-                    {location?.contact?.phone ?? "000 000 0000"}
-                  </p>
+                  <Button className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors">
+                    Reservar Ahora
+                  </Button>
                 </div>
-
                 <div>
                   <GoogleMapComponent
                     latLng={{
@@ -131,11 +130,7 @@ export default function RestaurantPage({
                   />
                 </div>
 
-                <div className="flex items-center">
-                  <Button className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors">
-                    Reservar Ahora
-                  </Button>
-                </div>
+      
               </div>
             </CardContent>
           </Card>
