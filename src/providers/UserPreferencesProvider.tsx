@@ -1,5 +1,6 @@
 "use client";
 import { Area, Category, City } from "@/types/sanity";
+import { SCategory, SCity } from "@/types/sanity.custom.type";
 import React, { createContext, useReducer, ReactNode } from "react";
 
 type UserPreferences = {
@@ -10,8 +11,8 @@ type UserPreferences = {
 
 type UserPreferencesContextType = {
   preferences: UserPreferences;
-  setCity: (city: City) => void;
-  setCategory: (category: Category) => void;
+  setCity: (city: SCity) => void;
+  setCategory: (category: SCategory) => void;
   setArea: (area: Area) => void;
 };
 

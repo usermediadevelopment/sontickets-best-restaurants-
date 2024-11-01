@@ -1,5 +1,5 @@
 import { client } from "@/config/sanity/client";
-import { LocationWithRestaurant } from "@/types/sanity.custom.type";
+import { SLocation } from "@/types/sanity.custom.type";
 
 export const getLocationBySlug = async (locationSlug: string) => {
   const LOCATIONS_QUERY = `
@@ -7,6 +7,9 @@ export const getLocationBySlug = async (locationSlug: string) => {
         _type == "location" && slug.current == "${locationSlug}"
         ]{
         ...,
+        "city": city->{
+            ...
+            },
         photos[]{
             _key,
             _type,
@@ -25,8 +28,9 @@ export const getLocationBySlug = async (locationSlug: string) => {
         }
       `;
 
-  const locations: LocationWithRestaurant[] =
-    await client.fetch(LOCATIONS_QUERY);
+  const locations: SLocation[] = await client.fetch(LOCATIONS_QUERY);
+
+  console.log("location", locations?.[0]);
 
   return locations?.[0] ?? null;
 };

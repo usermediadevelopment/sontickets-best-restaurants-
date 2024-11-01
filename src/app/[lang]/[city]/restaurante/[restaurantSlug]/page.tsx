@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 import {
-  ArrowLeft,
   Share2,
   MapPin,
   DollarSign,
@@ -14,13 +13,15 @@ import {
   HandPlatter,
   ChevronDown,
   Copy,
+  Home,
+  ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+
 import GoogleMapComponent from "@/components/GoogleMapComponent";
 
-import { useState } from "react";
-import { LocationWithRestaurant } from "@/types/sanity.custom.type";
+import { use, useMemo, useState } from "react";
+import { SLocation } from "@/types/sanity.custom.type";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import {
@@ -29,14 +30,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 
 export default function RestaurantPage({
   params,
 }: {
-  params: { restaurantSlug: string };
+  params: Promise<{ restaurantSlug: string }>;
 }) {
-  const router = useRouter();
-  const location = useGetLocation(params.restaurantSlug);
+  const paramsT = use(params);
+  const location = useGetLocation(paramsT.restaurantSlug);
+  const { setCity, setCategory } = useUserPreferences();
 
   const [copied, setCopied] = useState(false);
 
@@ -67,18 +70,49 @@ export default function RestaurantPage({
     }).format(value);
   };
 
+  const cityPath = useMemo(() => {
+    const city = location?.city?.slug?.current ?? "";
+    return `/es/${city}`;
+  }, [location]);
+
+  const categoryPath = useMemo(() => {
+    const city = location?.city?.slug?.current ?? "";
+    const category =
+      location?.restaurant?.categories?.at(0)?.slug?.current ?? "";
+    return `/es/${city}/categoria/${category}`;
+  }, [location]);
+
   return (
     <div className="py-8 bg-gray-100 min-h-screen">
-      <div className="flex gap-2 items-center mb-4">
-        <Button
-          variant="outline"
-          size={"icon"}
-          className="text-primary px-2 py-2"
-          onClick={() => router.back()}
+      <div className="flex items-center container mx-auto my-2">
+        <Link href={"/es"}>
+          <Home className="w-5 h-5" />
+        </Link>
+        <ChevronRight className="w-5 h-5 mx-1 text-gray-500" />
+        <Link
+          href={cityPath}
+          onClick={() => {
+            if (location?.city) setCity(location?.city);
+          }}
+          prefetch
+          className="underline"
         >
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <span className="text-primary">Ver todos los restaurantes</span>
+          <span>{location?.city?.name}</span>
+        </Link>
+
+        <ChevronRight className="w-5 h-5 mx-2 text-gray-500" />
+        <Link
+          href={categoryPath}
+          onClick={() => {
+            if (location?.restaurant?.categories) {
+              setCategory(location?.restaurant?.categories[0]);
+            }
+          }}
+          prefetch
+          className="underline"
+        >
+          <span>{location?.restaurant?.categories?.[0]?.name}</span>
+        </Link>
       </div>
 
       <div className="flex-col ">
@@ -100,7 +134,7 @@ export default function RestaurantPage({
           })}
         </div>
       </div>
-      <div className="flex flex-col md:flex-row py-5 gap-4 px-5 md:px-0 ">
+      <div className="flex flex-col md:flex-row py-5 gap-4 px-5 md:px-0  container mx-auto">
         <div className="basis-full md:basis-10/12">
           <div className="flex flex-col">
             <div className="flex justify-between items-center">
@@ -185,13 +219,11 @@ export default function RestaurantPage({
                 </div>
               </div>
 
-              <CharacteristicsAndServices
-                location={location as LocationWithRestaurant}
-              />
+              <CharacteristicsAndServices location={location as SLocation} />
             </div>
           </div>
         </div>
-        <div>
+        <div className="md:sticky md:top-[170px]  h-fit ">
           <Card className="rounded-lg bg-slate-50 h-auto md:w-[400px]">
             <CardContent className="p-6 ">
               <div className="space-y-4 mb-6">
@@ -233,7 +265,7 @@ export default function RestaurantPage({
   );
 }
 type CharacteristicsAndServicesProps = {
-  location: LocationWithRestaurant;
+  location: SLocation;
 };
 const CharacteristicsAndServices = ({
   location,

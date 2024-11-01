@@ -210,7 +210,7 @@ export default function MainLayout({
       </header>
 
       <main
-        className={`flex bg-gray-100 min-h-screen flex-col md:px-24 gap-12 ${
+        className={`flex bg-gray-100 min-h-screen flex-col ${
           params.restaurantSlug
             ? "pt-20"
             : params.lang == "pre-registro"
