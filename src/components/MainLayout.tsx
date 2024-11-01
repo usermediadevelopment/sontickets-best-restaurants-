@@ -89,88 +89,86 @@ export default function MainLayout({
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-white border-b border-gray-200 z-50 fixed w-full">
-        <div className="px-4 md:px-20 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Image
-                src="/logo.png" // Adjust the path if you placed the image in a subdirectory
-                alt="Logo"
-                width={140}
-                height={100}
-                onClick={() => router.push("/")}
-                className="cursor-pointer"
+        <div className="flex items-center justify-between py-6 container mx-auto px-4  ">
+          <div className="flex items-center space-x-4">
+            <Image
+              src="/logo.png" // Adjust the path if you placed the image in a subdirectory
+              alt="Logo"
+              width={140}
+              height={100}
+              onClick={() => router.push("/")}
+              className="cursor-pointer"
+            />
+
+            <div className="relative hidden md:block">
+              <Input
+                type="search"
+                placeholder="Buscar restaurantes o platos"
+                className="pl-10 pr-4 py-2 w-[450px] hidden"
               />
-
-              <div className="relative hidden md:block">
-                <Input
-                  type="search"
-                  placeholder="Buscar restaurantes o platos"
-                  className="pl-10 pr-4 py-2 w-[450px] hidden"
-                />
-                <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hidden"
-                  size={18}
-                />
-              </div>
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hidden"
+                size={18}
+              />
             </div>
-            <div className="flex  justify-end space-x-2">
-              <Sheet>
-                <SheetTrigger asChild></SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Menu</SheetTitle>
-                  </SheetHeader>
-                  <div className="py-4">
-                    <Button
-                      onClick={() => {
-                        window.open("https://app.sontickets.com/", "_blank");
-                      }}
-                      variant="ghost"
-                      className="w-full justify-start"
-                    >
-                      Iniciar sesión
-                    </Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+          </div>
+          <div className="flex  justify-end space-x-2">
+            <Sheet>
+              <SheetTrigger asChild></SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <div className="py-4">
                   <Button
-                    variant="outline"
-                    className="flex items-center px-3 py-2 text-sm border rounded-[5px]"
+                    onClick={() => {
+                      window.open("https://app.sontickets.com/", "_blank");
+                    }}
+                    variant="ghost"
+                    className="w-full justify-start"
                   >
-                    <MapPin size={16} className="mr-2" />
-                    <span>
-                      {citySelected?.name ??
-                        _.capitalize((params?.city as string) ?? "") ??
-                        "Ciudad"}
-                    </span>
-                    <ChevronDown size={16} className="ml-2" />
+                    Iniciar sesión
                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[200px] bg-white ">
-                  {cities.map((city) => (
-                    <DropdownMenuItem
-                      key={city._id}
-                      onSelect={() => handleCityChange(city)}
-                      className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
-                    >
-                      {city.name}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </div>
+              </SheetContent>
+            </Sheet>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex items-center px-3 py-2 text-sm border rounded-[5px]"
+                >
+                  <MapPin size={16} className="mr-2" />
+                  <span>
+                    {citySelected?.name ??
+                      _.capitalize((params?.city as string) ?? "") ??
+                      "Ciudad"}
+                  </span>
+                  <ChevronDown size={16} className="ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[200px] bg-white ">
+                {cities.map((city) => (
+                  <DropdownMenuItem
+                    key={city._id}
+                    onSelect={() => handleCityChange(city)}
+                    className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                  >
+                    {city.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-              <Button
-                onClick={() => {
-                  window.open("https://app.sontickets.com/", "_blank");
-                }}
-                variant="outline"
-                className="hidden md:inline-flex px-3 py-2 text-sm text-[#6000FB] border border-[#6000FB] rounded-[5px]"
-              >
-                Iniciar sesión
-              </Button>
-            </div>
+            <Button
+              onClick={() => {
+                window.open("https://app.sontickets.com/", "_blank");
+              }}
+              variant="outline"
+              className="hidden md:inline-flex px-3 py-2 text-sm text-[#6000FB] border border-[#6000FB] rounded-[5px]"
+            >
+              Iniciar sesión
+            </Button>
           </div>
         </div>
         {!params.restaurantSlug && params?.lang != "pre-registro" && (
@@ -225,7 +223,14 @@ export default function MainLayout({
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h2 className="text-2xl font-bold">mejoresrestaurantes.co</h2>
+              <Image
+                src="/logo.png" // Adjust the path if you placed the image in a subdirectory
+                alt="Logo"
+                width={140}
+                height={100}
+                onClick={() => router.push("/")}
+                className="cursor-pointer"
+              />
             </div>
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
               <Button

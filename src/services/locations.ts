@@ -30,7 +30,5 @@ export const getLocationBySlug = async (locationSlug: string) => {
 
   const locations: SLocation[] = await client.fetch(LOCATIONS_QUERY);
 
-  console.log("location", locations?.[0]);
-
   return locations?.[0] ?? null;
 };
