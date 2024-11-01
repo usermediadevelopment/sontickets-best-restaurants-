@@ -12,7 +12,7 @@ export default function IndexPage() {
   const locations = useGetLocations();
 
   return (
-    <div className="px-4 py-8">
+    <div className="px-4 py-8 container mx-auto">
       <h2 className="text-2xl font-bold mb-6 text-center">
         Mejores restaurantes en {city.name} de comida {category.name}
       </h2>

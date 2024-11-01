@@ -28,7 +28,7 @@ export interface SRestaurant extends Omit<Restaurant, "categories"> {
 }
 
 export interface SCategory extends Category {
-  another: string;
+  iconUrl: string;
 }
 
 export interface SCity extends City {

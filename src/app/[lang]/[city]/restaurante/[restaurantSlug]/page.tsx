@@ -84,9 +84,9 @@ export default function RestaurantPage({
 
   return (
     <div className="py-8 bg-gray-100 min-h-screen">
-      <div className="flex items-center container mx-auto my-2">
+      <div className="flex items-center text-sm container mx-auto my-2">
         <Link href={"/es"}>
-          <Home className="w-5 h-5" />
+          <Home className="w-4 h-4" />
         </Link>
         <ChevronRight className="w-5 h-5 mx-1 text-gray-500" />
         <Link
@@ -195,7 +195,7 @@ export default function RestaurantPage({
                         <Badge
                           key={itemIndex}
                           variant="default"
-                          className="mr-3 px-2 py-1 my-1 rounded-sm bg-gray-300"
+                          className="mr-3 px-2 py-1 my-1 rounded-sm"
                         >
                           {item}
                         </Badge>
@@ -316,7 +316,7 @@ const CharacteristicsAndServices = ({
                   <Badge
                     key={itemIndex}
                     variant="default"
-                    className="mr-3 my-1 p-2 py-1 rounded-sm bg-gray-300"
+                    className="mr-3 my-1 p-2 py-1 rounded-sm"
                   >
                     {item}
                   </Badge>

@@ -6,7 +6,6 @@ import { Search, ChevronDown, MapPin, Instagram } from "lucide-react";
 
 import { useCities } from "@/hooks/useCities";
 import { useCategories } from "@/hooks/useCategories";
-import { Category, City } from "@/types/sanity";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -26,6 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { SCategory, SCity } from "@/types/sanity.custom.type";
 
 export default function MainLayout({
   children,
@@ -47,7 +47,7 @@ export default function MainLayout({
     return cities.find((c) => c._id === city._id);
   }, [cities, city]);
 
-  const handleCityChange = (city: City) => {
+  const handleCityChange = (city: SCity) => {
     setCity(city);
     let newPath = `/es/${city?.slug?.current}`;
     if (params.category) {
@@ -57,7 +57,7 @@ export default function MainLayout({
     router.push(newPath);
   };
 
-  const handleCategoryChange = (category: Category) => {
+  const handleCategoryChange = (category: SCategory) => {
     setCategory(category);
     const newPath = `/es/${params.city || "todas-ciudades"}/categoria/${
       category?.slug?.current
