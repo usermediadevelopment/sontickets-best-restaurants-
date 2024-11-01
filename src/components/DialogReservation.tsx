@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,7 +8,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { LocationWithRestaurant } from "@/types/sanity.custom.type";
-import { useEffect } from "react";
 
 type DialogReservationProps = {
   open: boolean;
@@ -22,29 +20,21 @@ export const DialogReservation = ({
   onOpenChange,
   location,
 }: DialogReservationProps) => {
-  useEffect(() => {
-    if (open) {
-      document.body.classList.add("overflow-hidden");
-    } else {
-      document.body.classList.remove("overflow-hidden");
-    }
-    return () => {
-      document.body.classList.remove("overflow-hidden");
-    };
-  }, [open]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="min-w-[800px] overflow-hidden">
+      <DialogContent className="w-full md:min-w-[600px] pb-10 md:pb-5">
         <DialogHeader>
-          <DialogTitle>{location?.restaurant?.reservationUrl}</DialogTitle>
-          <DialogDescription>
-            {"Make changes to your profile here. Click save when you're done."}
+          <DialogTitle className="text-lg">{location?.name}</DialogTitle>
+          <DialogDescription className="hidden">
+            {
+              "Reserva tu mesa y ven a disfrutar de un momento especial. Buen ambiente, sabores únicos y un lugar esperando por ti."
+            }
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <iframe
             title="reservas"
-            src="https://app.sontickets.com/form/dellanonna-Iocd?lang=es&amp;from=dellanonna"
+            src={location.restaurant?.reservationUrl}
             height="700"
             width="100%"
           ></iframe>
