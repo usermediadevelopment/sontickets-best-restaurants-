@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { client } from "@/config/sanity/client";
 
-import { LocationWithRestaurant } from "@/types/sanity.custom.type";
+import { SLocation } from "@/types/sanity.custom.type";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const useGetLocations = () => {
-  const [locations, setLocations] = useState<LocationWithRestaurant[]>([]);
+  const [locations, setLocations] = useState<SLocation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const params = useParams();
 
@@ -14,6 +15,7 @@ const useGetLocations = () => {
   const categorySlug = params.category || "todas-categorias";
 
   const getLocations = async () => {
+    setIsLoading(true);
     const categoryQuery = `&& 
         "${categorySlug}" in restaurant->categories[]->slug.current`;
     /*     const areaQuery = `&&  area->slug.current == "${areaSlug}"`; */
@@ -47,8 +49,11 @@ const useGetLocations = () => {
 
     //console.log(LOCATIONS_QUERY);
 
-    const locations: LocationWithRestaurant[] =
-      await client.fetch(LOCATIONS_QUERY);
+    const locations: SLocation[] = await client.fetch(LOCATIONS_QUERY);
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    setIsLoading(false);
 
     setLocations(locations);
   };
@@ -57,7 +62,7 @@ const useGetLocations = () => {
     getLocations();
   }, [citySlug, categorySlug]);
 
-  return locations;
+  return { locations, isLoading };
 };
 
 export default useGetLocations;

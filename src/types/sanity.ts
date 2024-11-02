@@ -39,37 +39,9 @@ export type SanityImageDimensions = {
   aspectRatio?: number;
 };
 
-export type SanityFileAsset = {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  source?: SanityAssetSourceData;
-};
-
 export type SocialMedia = {
   _type: "socialMedia";
-  platform?:
-    | "Facebook"
-    | "Twitter"
-    | "Instagram"
-    | "LinkedIn"
-    | "TikTok"
-    | "YouTube";
+  platform?: "Facebook" | "Twitter" | "Instagram" | "LinkedIn" | "TikTok" | "YouTube";
   url?: string;
 };
 
@@ -93,14 +65,7 @@ export type Review = {
 
 export type OpeningHour = {
   _type: "openingHour";
-  day?:
-    | "Monday"
-    | "Tuesday"
-    | "Wednesday"
-    | "Thursday"
-    | "Friday"
-    | "Saturday"
-    | "Sunday";
+  day?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
   openingTime?: string;
   closingTime?: string;
   isClosed?: boolean;
@@ -131,11 +96,9 @@ export type MenuItem = {
 export type MenuCategory = {
   _type: "menuCategory";
   categoryName?: string;
-  items?: Array<
-    {
-      _key: string;
-    } & MenuItem
-  >;
+  items?: Array<{
+    _key: string;
+  } & MenuItem>;
 };
 
 export type Location = {
@@ -185,16 +148,12 @@ export type Location = {
     _type: "image";
     _key: string;
   }>;
-  menu?: Array<
-    {
-      _key: string;
-    } & MenuCategory
-  >;
-  schedule?: Array<
-    {
-      _key: string;
-    } & OpeningHour
-  >;
+  menu?: Array<{
+    _key: string;
+  } & MenuCategory>;
+  schedule?: Array<{
+    _key: string;
+  } & OpeningHour>;
   dietaryPreferences?: Array<string>;
   ambiance?: Array<string>;
   facilities?: Array<string>;
@@ -268,6 +227,15 @@ export type Restaurant = {
     _type: "image";
   };
   reservationUrl?: string;
+  pdfMenuFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
   website?: string;
   categories?: Array<{
     _ref: string;
@@ -288,11 +256,9 @@ export type Restaurant = {
     currency?: "COP" | "EUR" | "GBP";
   };
   contactEmail?: string;
-  socialMedia?: Array<
-    {
-      _key: string;
-    } & SocialMedia
-  >;
+  socialMedia?: Array<{
+    _key: string;
+  } & SocialMedia>;
   seo?: Seo;
 };
 
@@ -301,6 +267,28 @@ export type Seo = {
   metaTitle?: string;
   metaDescription?: string;
   keywords?: Array<string>;
+};
+
+export type SanityFileAsset = {
+  _id: string;
+  _type: "sanity.fileAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  source?: SanityAssetSourceData;
 };
 
 export type City = {
@@ -398,29 +386,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes =
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityFileAsset
-  | SocialMedia
-  | Review
-  | OpeningHour
-  | MenuItem
-  | MenuCategory
-  | Location
-  | ContactInfo
-  | Geopoint
-  | Area
-  | Country
-  | Restaurant
-  | Seo
-  | City
-  | Category
-  | SanityImageCrop
-  | SanityImageHotspot
-  | SanityImageAsset
-  | SanityAssetSourceData
-  | SanityImageMetadata
-  | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SocialMedia | Review | OpeningHour | MenuItem | MenuCategory | Location | ContactInfo | Geopoint | Area | Country | Restaurant | Seo | SanityFileAsset | City | Category | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

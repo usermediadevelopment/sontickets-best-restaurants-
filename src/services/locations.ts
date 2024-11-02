@@ -20,6 +20,7 @@ export const getLocationBySlug = async (locationSlug: string) => {
           },
         "restaurant": restaurant->{
             ...,
+            "pdfMenuUrl": pdfMenuFile.asset->url,
             "logoUrl": logo.asset->url,
             categories[]->{
             ...

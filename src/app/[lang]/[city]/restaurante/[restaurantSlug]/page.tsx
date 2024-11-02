@@ -31,7 +31,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
-
+import { pdfjs } from "react-pdf";
+import { DialogReservation } from "@/components/DialogReservation";
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
 export default function RestaurantPage({
   params,
 }: {
@@ -42,6 +47,8 @@ export default function RestaurantPage({
   const { setCity, setCategory } = useUserPreferences();
 
   const [copied, setCopied] = useState(false);
+
+  const [openDialogReservation, setOpenDialogReservation] = useState(false);
 
   const copyAddress = () => {
     navigator.clipboard.writeText(location?.address ?? "");
@@ -204,7 +211,11 @@ export default function RestaurantPage({
                   </div>
                 </div>
                 <div className="mt-2 sm:mt-0">
-                  <Link className="underline" href={"menu"}>
+                  <Link
+                    href={location?.restaurant?.pdfMenuUrl ?? ""}
+                    className="underline"
+                    target="_blank"
+                  >
                     Ver menú
                   </Link>
                 </div>
@@ -228,7 +239,12 @@ export default function RestaurantPage({
             <CardContent className="p-6 ">
               <div className="space-y-4 mb-6">
                 <div className="flex items-center">
-                  <Button className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors">
+                  <Button
+                    onClick={() => {
+                      setOpenDialogReservation(true);
+                    }}
+                    className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors"
+                  >
                     Reservar Ahora
                   </Button>
                 </div>
@@ -261,9 +277,17 @@ export default function RestaurantPage({
           </Card>
         </div>
       </div>
+      {location && (
+        <DialogReservation
+          location={location}
+          open={openDialogReservation}
+          onOpenChange={setOpenDialogReservation}
+        />
+      )}
     </div>
   );
 }
+
 type CharacteristicsAndServicesProps = {
   location: SLocation;
 };

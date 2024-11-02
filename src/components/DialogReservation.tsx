@@ -7,12 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { LocationWithRestaurant } from "@/types/sanity.custom.type";
+import { SLocation } from "@/types/sanity.custom.type";
 
 type DialogReservationProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  location: LocationWithRestaurant;
+  location: SLocation;
 };
 
 export const DialogReservation = ({
@@ -32,12 +32,12 @@ export const DialogReservation = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <iframe
+          <embed
             title="reservas"
             src={location.restaurant?.reservationUrl}
             height="700"
             width="100%"
-          ></iframe>
+          ></embed>
         </div>
         <DialogFooter>
           <Button type="submit">Cerrar</Button>

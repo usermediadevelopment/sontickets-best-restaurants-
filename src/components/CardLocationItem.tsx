@@ -1,4 +1,4 @@
-import { LocationWithRestaurant } from "@/types/sanity.custom.type";
+import { SLocation } from "@/types/sanity.custom.type";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
@@ -7,7 +7,7 @@ import { DialogReservation } from "./DialogReservation";
 import Link from "next/link";
 
 type CardLocationItemProps = {
-  location: LocationWithRestaurant;
+  location: SLocation;
 };
 
 const CardLocationItem = ({ location }: CardLocationItemProps) => {

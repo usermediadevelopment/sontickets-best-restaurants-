@@ -25,6 +25,7 @@ export type LocationWithRestaurant = Omit<
 export interface SRestaurant extends Omit<Restaurant, "categories"> {
   logoUrl: string;
   categories?: SCategory[];
+  pdfMenuUrl: string;
 }
 
 export interface SCategory extends Category {
