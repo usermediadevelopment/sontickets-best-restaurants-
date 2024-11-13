@@ -83,9 +83,10 @@ const CardLocationItem = ({ location }: CardLocationItemProps) => {
             <Link href={restaurantDetailUrl} className="my-0 p-0">
               <Button
                 variant="outline"
-                size="icon"
-                className="text-[#6000FB] hover:text-purple-800 transition-colors rounded-[5px] px-3 "
+                size="default"
+                className="text-[#6000FB] hover:text-purple-800 transition-colors rounded-[5px] px-3"
               >
+                Ver más
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </Link>

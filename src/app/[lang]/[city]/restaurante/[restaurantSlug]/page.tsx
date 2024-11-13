@@ -102,13 +102,13 @@ export default function RestaurantPage({
             onClick={() => {
               setOpenDialogReservation(true);
             }}
-            className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors"
+            className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px] transition-colors"
           >
             Reservar Ahora
           </Button>
         </div>
       </div>
-      <div className="flex items-center text-sm container mx-auto my-2">
+      <div className="flex items-center text-sm container mx-auto my-2  px-4 md:px-0 ">
         <Link href={"/es"}>
           <Home className="w-4 h-4" />
         </Link>
@@ -219,7 +219,7 @@ export default function RestaurantPage({
                         <Badge
                           key={itemIndex}
                           variant="default"
-                          className="mr-3 px-2 py-1 my-1 rounded-sm"
+                          className="mr-3 px-2 py-1 my-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
                         >
                           {item}
                         </Badge>
@@ -260,7 +260,7 @@ export default function RestaurantPage({
                     onClick={() => {
                       setOpenDialogReservation(true);
                     }}
-                    className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors  hidden md:block"
+                    className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px]  transition-colors  hidden md:block"
                   >
                     Reservar Ahora
                   </Button>
@@ -357,7 +357,7 @@ const CharacteristicsAndServices = ({
                   <Badge
                     key={itemIndex}
                     variant="default"
-                    className="mr-3 my-1 p-2 py-1 rounded-sm"
+                    className="mr-3 my-1 p-2 py-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
                   >
                     {item}
                   </Badge>
