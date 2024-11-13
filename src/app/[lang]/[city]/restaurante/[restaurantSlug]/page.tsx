@@ -91,9 +91,9 @@ export default function RestaurantPage({
 
   return (
     <div className="py-8 bg-gray-100 min-h-screen relative">
-      <div className=" visible md:hidden bottom-0  h-20 fixed  justify-between items-center w-full bg-[#6000FB] z-10 flex px-5">
+      <div className=" visible md:hidden bottom-0  fixed  justify-between items-center w-full bg-[#6000FB] z-10 flex px-5 py-4 gap-2">
         <div className="flex flex-col">
-          <span className="text-sm text-white">Asegura tu lugar </span>
+          <span className="text-sm text-white">Asegura tu lugar en</span>
           <span className="tex-md text-white">
             {location?.restaurant?.name}
           </span>
