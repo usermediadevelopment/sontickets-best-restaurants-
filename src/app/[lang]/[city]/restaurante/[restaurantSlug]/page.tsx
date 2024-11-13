@@ -91,10 +91,12 @@ export default function RestaurantPage({
 
   return (
     <div className="py-8 bg-gray-100 min-h-screen relative">
-      <div className=" visible md:hidden bottom-0  h-20 fixed  justify-between items-center w-full bg-white z-10 flex px-5 ">
+      <div className=" visible md:hidden bottom-0  h-20 fixed  justify-between items-center w-full bg-[#6000FB] z-10 flex px-5">
         <div className="flex flex-col">
-          <span className="text-sm">Asegura tu lugar </span>
-          <span className="tex-md">{location?.restaurant?.name}</span>
+          <span className="text-sm text-white">Asegura tu lugar </span>
+          <span className="tex-md text-white">
+            {location?.restaurant?.name}
+          </span>
         </div>
 
         <div>
@@ -102,7 +104,7 @@ export default function RestaurantPage({
             onClick={() => {
               setOpenDialogReservation(true);
             }}
-            className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px] transition-colors"
+            className="bg-white hover:bg-white text-[#6000FB]  hover:text-[#6000FB]  px-4 py-2 rounded-[5px] transition-colors"
           >
             Reservar Ahora
           </Button>
