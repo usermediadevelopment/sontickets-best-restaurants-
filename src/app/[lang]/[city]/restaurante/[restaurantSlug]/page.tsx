@@ -90,7 +90,24 @@ export default function RestaurantPage({
   }, [location]);
 
   return (
-    <div className="py-8 bg-gray-100 min-h-screen">
+    <div className="py-8 bg-gray-100 min-h-screen relative">
+      <div className=" visible md:hidden bottom-0  h-20 fixed  justify-between items-center w-full bg-white z-10 flex px-5 ">
+        <div className="flex flex-col">
+          <span className="text-sm">Asegura tu lugar </span>
+          <span className="tex-md">{location?.restaurant?.name}</span>
+        </div>
+
+        <div>
+          <Button
+            onClick={() => {
+              setOpenDialogReservation(true);
+            }}
+            className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors"
+          >
+            Reservar Ahora
+          </Button>
+        </div>
+      </div>
       <div className="flex items-center text-sm container mx-auto my-2">
         <Link href={"/es"}>
           <Home className="w-4 h-4" />
@@ -146,9 +163,9 @@ export default function RestaurantPage({
           <div className="flex flex-col">
             <div className="flex justify-between items-center">
               <div>
-                <span className="text-sm text-gray-500 mb-1">
-                  {location?.restaurant?.categories?.at(0)?.name} ·{" "}
-                  {location?.restaurant?.ambiance?.join(", ")}
+                <span className="text-md text-gray-500 mb-1">
+                  {location?.restaurant?.categories?.at(0)?.name}
+                  {location?.restaurant?.ambiance?.join(" - ")}
                 </span>
               </div>
 
@@ -160,7 +177,7 @@ export default function RestaurantPage({
               </div>
             </div>
             <h1 className="text-3xl font-bold my-1">{location?.name}</h1>
-            <div className="flex  text-sm flex-col">
+            <div className="flex  text-md flex-col">
               <div className="flex flex-col">
                 <span className="flex items-center">
                   <MapPin className="w-4 h-4 mr-1" />
@@ -187,11 +204,11 @@ export default function RestaurantPage({
               </div>
 
               <div className="flex flex-col  mt-8">
-                <h3 className="font-medium  text-lg">Menú</h3>
+                <h3 className="font-bold  text-lg">Menú</h3>
                 <div className="flex flex-col md:flex-row mt-5 md:items-center">
                   <div className="flex">
                     <HandPlatter className="w-4 h-4" />
-                    <span className="ml-2 text-sm mr-2">
+                    <span className="ml-2 text-md mr-2">
                       Opciones dietéticas
                     </span>
                   </div>
@@ -222,7 +239,7 @@ export default function RestaurantPage({
               </div>
 
               <div className="my-8">
-                <h3 className="font-medium  text-lg">Descripción</h3>
+                <h3 className="font-bold  text-lg">Descripción</h3>
                 <div className="mt-5">
                   <p className="text-gray-600">
                     {location?.restaurant?.description}
@@ -243,13 +260,13 @@ export default function RestaurantPage({
                     onClick={() => {
                       setOpenDialogReservation(true);
                     }}
-                    className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors"
+                    className="bg-purple-600 text-white px-4 py-2 rounded-[5px] hover:bg-purple-700 transition-colors  hidden md:block"
                   >
                     Reservar Ahora
                   </Button>
                 </div>
                 <div>
-                  <h6 className="mb-2  font-medium">Cómo llegar</h6>
+                  <h6 className="mb-2  font-bold">Cómo llegar</h6>
                   <GoogleMapComponent
                     latLng={{
                       lat: location?.geoLocation?.lat ?? 4.60971,
@@ -318,7 +335,7 @@ const CharacteristicsAndServices = ({
 
   return (
     <div>
-      <h3 className="font-medium  text-lg">Características y servicios</h3>
+      <h3 className="font-bold text-lg">Características y servicios</h3>
       <div className="mt-5">
         <Accordion type="single" collapsible className="w-full">
           {services.map((service, index) => (
