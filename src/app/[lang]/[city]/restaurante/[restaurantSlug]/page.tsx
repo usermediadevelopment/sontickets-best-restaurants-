@@ -91,7 +91,7 @@ export default function RestaurantPage({
 
   return (
     <div className="py-8 bg-gray-100 min-h-screen relative">
-      <div className=" visible md:hidden bottom-0  fixed  justify-between items-center w-full bg-[#6000FB] z-10 flex px-5 py-4 gap-2">
+      <div className=" visible md:hidden bottom-0  fixed  justify-between items-center w-full bg-[#6000FB] z-10 flex px-5 py-5 gap-2">
         <div className="flex flex-col">
           <span className="text-sm text-white">Asegura tu lugar en</span>
           <span className="tex-md text-white">
@@ -189,7 +189,7 @@ export default function RestaurantPage({
                 <span className="flex items-center mt-1">
                   <DollarSign className="w-4 h-4 mr-1" />
                   <span>
-                    Precios desde{" "}
+                    Desde{" "}
                     <span className="font-bold">
                       {formatCurrency(
                         location?.restaurant?.priceRange?.minPrice ?? 0
@@ -208,25 +208,25 @@ export default function RestaurantPage({
               <div className="flex flex-col  mt-8">
                 <h3 className="font-bold  text-lg">Menú</h3>
                 <div className="flex flex-col md:flex-row mt-5 md:items-center">
-                  <div className="flex">
-                    <HandPlatter className="w-4 h-4" />
-                    <span className="ml-2 text-md mr-2">
-                      Opciones dietéticas
-                    </span>
-                  </div>
+                  {location?.dietaryPreferences && (
+                    <div className="flex">
+                      <HandPlatter className="w-4 h-4" />
+                      <span className="ml-2 text-md mr-2">
+                        Opciones dietéticas
+                      </span>
+                    </div>
+                  )}
 
                   <div>
-                    {location?.restaurant?.dietaryPreferences?.map(
-                      (item, itemIndex) => (
-                        <Badge
-                          key={itemIndex}
-                          variant="default"
-                          className="mr-3 px-2 py-1 my-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
-                        >
-                          {item}
-                        </Badge>
-                      )
-                    )}
+                    {location?.dietaryPreferences?.map((item, itemIndex) => (
+                      <Badge
+                        key={itemIndex}
+                        variant="default"
+                        className="mr-3 px-2 py-1 my-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
+                      >
+                        {item}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
                 <div className="mt-2 sm:mt-0">
@@ -318,20 +318,20 @@ const CharacteristicsAndServices = ({
       icon: <HandPlatter className="w-5 h-5" />,
       title: "Servicios",
       count: 2,
-      items: location?.restaurant?.facilities ?? [],
+      items: location?.facilities ?? [],
     },
 
     {
       icon: <CreditCard className="w-5 h-5" />,
       title: "Métodos de pago aceptados",
       count: 4,
-      items: location?.restaurant?.paymentOptions ?? [],
+      items: location?.paymentOptions ?? [],
     },
     {
       icon: <SquareMenu className="w-5 h-5" />,
       title: "Otros servicios",
       count: 3,
-      items: location?.restaurant?.entertainment ?? [],
+      items: location?.entertainment ?? [],
     },
   ];
 
