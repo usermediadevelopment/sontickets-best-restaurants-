@@ -21,7 +21,7 @@ import {
 import Image from "next/image";
 
 import GoogleMapComponent from "@/components/GoogleMapComponent";
-
+import { PortableText } from "@portabletext/react";
 import { use, useMemo, useState } from "react";
 import { SLocation } from "@/types/sanity.custom.type";
 import { Badge } from "@/components/ui/badge";
@@ -109,6 +109,7 @@ export default function RestaurantPage({
     return `/es/${city}/categoria/${category}`;
   }, [location]);
 
+  console.log(location?.description);
   return (
     <div className="py-8 bg-gray-100 min-h-screen relative">
       <div className=" visible md:hidden bottom-0  fixed  justify-between items-center w-full bg-[#6000FB] z-10 flex px-5 py-5 gap-2">
@@ -284,7 +285,9 @@ export default function RestaurantPage({
               <div className="my-8">
                 <h3 className="font-bold  text-lg">Descripción</h3>
                 <div className="mt-5">
-                  <p className="text-gray-600">{location?.description}</p>
+                  {location?.description && (
+                    <PortableText value={location.description} />
+                  )}
                 </div>
               </div>
 
