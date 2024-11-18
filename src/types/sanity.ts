@@ -115,6 +115,7 @@ export type Location = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "restaurant";
   };
+  googlePlaceId?: string;
   country?: {
     _ref: string;
     _type: "reference";
@@ -154,6 +155,7 @@ export type Location = {
   schedule?: Array<{
     _key: string;
   } & OpeningHour>;
+  outstandingFeatures?: Array<string>;
   dietaryPreferences?: Array<string>;
   ambiance?: Array<string>;
   facilities?: Array<string>;
@@ -244,12 +246,6 @@ export type Restaurant = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "category";
   }>;
-  dietaryPreferences?: Array<string>;
-  ambiance?: Array<string>;
-  facilities?: Array<string>;
-  entertainment?: Array<string>;
-  suitableFor?: Array<string>;
-  paymentOptions?: Array<string>;
   priceRange?: {
     minPrice?: number;
     maxPrice?: number;

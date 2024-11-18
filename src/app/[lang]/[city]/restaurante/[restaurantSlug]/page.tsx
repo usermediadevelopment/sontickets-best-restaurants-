@@ -12,9 +12,10 @@ import {
   CreditCard,
   HandPlatter,
   ChevronDown,
-  Copy,
   Home,
   ChevronRight,
+  StarIcon,
+  Map,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -33,6 +34,8 @@ import {
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { pdfjs } from "react-pdf";
 import { DialogReservation } from "@/components/DialogReservation";
+import useGoogleReviews from "@/hooks/useGoogleReviews";
+
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url
@@ -46,14 +49,24 @@ export default function RestaurantPage({
   const location = useGetLocation(paramsT.restaurantSlug);
   const { setCity, setCategory } = useUserPreferences();
 
-  const [copied, setCopied] = useState(false);
-
   const [openDialogReservation, setOpenDialogReservation] = useState(false);
 
-  const copyAddress = () => {
-    navigator.clipboard.writeText(location?.address ?? "");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const { rating } = useGoogleReviews({
+    placeId: location?.googlePlaceId ?? "",
+  });
+
+  const handleNavigate = () => {
+    const address = encodeURIComponent(location?.address ?? "");
+    const wazeUrl = `waze://?q=${address}&navigate=yes`;
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
+
+    // Try to open Waze
+    window.location.href = wazeUrl;
+
+    // Fallback to Google Maps after a delay
+    setTimeout(() => {
+      window.open(mapsUrl, "_blank");
+    }, 1000);
   };
 
   const share = () => {
@@ -167,7 +180,7 @@ export default function RestaurantPage({
               <div>
                 <span className="text-md text-gray-500 mb-1">
                   {location?.restaurant?.categories?.at(0)?.name}
-                  {location?.restaurant?.ambiance?.join(" - ")}
+                  {location?.ambiance?.join(" - ")}
                 </span>
               </div>
 
@@ -181,7 +194,16 @@ export default function RestaurantPage({
             <h1 className="text-3xl font-bold my-1">{location?.name}</h1>
             <div className="flex  text-md flex-col">
               <div className="flex flex-col">
-                <span className="flex items-center">
+                {rating > 0 && (
+                  <span className="flex font-bold items-center mt-1 text-[#6000FB]">
+                    <StarIcon className="w-4 h-4 mr-1" />
+                    <span className="text-md text-[#6000FB]">{rating}</span>
+                    <span className="text-[12px] mx-1"> {"/"}</span>
+                    <span className="mr-2 text-[#6000FB]">5</span> Calificación
+                    de Google
+                  </span>
+                )}
+                <span className="flex items-center mt-1">
                   <MapPin className="w-4 h-4 mr-1" />
                   {location?.address}
                 </span>
@@ -203,6 +225,19 @@ export default function RestaurantPage({
                     </span>
                   </span>
                 </span>
+              </div>
+              <div className="mt-2">
+                <div className="flex flex-row gap-1 mt-2">
+                  {location?.outstandingFeatures?.map((item, itemIndex) => (
+                    <Badge
+                      key={itemIndex}
+                      variant="default"
+                      className="mr-2 my-1 p-2 py-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
+                    >
+                      {item}
+                    </Badge>
+                  ))}
+                </div>
               </div>
 
               <div className="flex flex-col  mt-8">
@@ -275,19 +310,13 @@ export default function RestaurantPage({
                       lng: location?.geoLocation?.lng ?? -74.08175,
                     }}
                   />
-                  <div className="flex  justify-between mt-4">
+                  <div className="flex   mt-4">
                     <div className="flex items-center gap-2">
-                      <MapPin className="h-5 w-5 text-green-600" />
+                      <Map className="h-5 w-5 text-green-600" />
                       <span className="text-sm">{location?.address}</span>
                     </div>
-                    <Button
-                      variant="link"
-                      className="flex items-center text-xs"
-                      size="default"
-                      onClick={copyAddress}
-                    >
-                      <Copy className="mr-1 h-3 w-3" />
-                      {copied ? "¡Copiado!" : "Copiar"}
+                    <Button variant={"link"} onClick={handleNavigate}>
+                      Como llegar
                     </Button>
                   </div>
                 </div>
