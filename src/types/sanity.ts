@@ -109,6 +109,7 @@ export type Location = {
   _rev: string;
   name?: string;
   slug?: Slug;
+  description?: string;
   restaurant?: {
     _ref: string;
     _type: "reference";

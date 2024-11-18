@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: never): Promise<Metadata> {
 
   return {
     title: location?.name,
-    description: location?.restaurant?.description,
+    description: location?.description,
     openGraph: {
       images: location?.photos?.[0].asset.url,
     },

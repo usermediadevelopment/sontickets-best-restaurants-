@@ -284,9 +284,7 @@ export default function RestaurantPage({
               <div className="my-8">
                 <h3 className="font-bold  text-lg">Descripción</h3>
                 <div className="mt-5">
-                  <p className="text-gray-600">
-                    {location?.restaurant?.description}
-                  </p>
+                  <p className="text-gray-600">{location?.description}</p>
                 </div>
               </div>
 
