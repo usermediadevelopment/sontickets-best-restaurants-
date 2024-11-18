@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: never): Promise<Metadata> {
   const location = await getLocationBySlug(restaurantSlug);
 
   return {
-    title: location?.name,
+    title: location.seo?.metaTitle,
     description: location.seo?.metaDescription,
     openGraph: {
       images: location?.photos?.[0].asset.url,
