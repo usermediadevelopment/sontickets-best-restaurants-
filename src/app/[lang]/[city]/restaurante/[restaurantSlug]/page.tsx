@@ -16,6 +16,7 @@ import {
   ChevronRight,
   StarIcon,
   Map,
+  ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -56,17 +57,23 @@ export default function RestaurantPage({
   });
 
   const handleNavigate = () => {
-    const address = encodeURIComponent(location?.address ?? "");
-    const wazeUrl = `waze://?q=${address}&navigate=yes`;
-    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
+    const address = location?.address ?? "";
+    let url;
 
-    // Try to open Waze
-    window.location.href = wazeUrl;
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      // iOS devices
+      url = "comgooglemaps://?q=" + encodeURIComponent(address);
+    } else if (/Android/i.test(navigator.userAgent)) {
+      // Android devices
+      url = "geo:0,0?q=" + encodeURIComponent(address);
+    } else {
+      // Other devices (desktop)
+      url =
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(address);
+    }
 
-    // Fallback to Google Maps after a delay
-    setTimeout(() => {
-      window.open(mapsUrl, "_blank");
-    }, 1000);
+    window.location.href = url;
   };
 
   const share = () => {
@@ -180,7 +187,6 @@ export default function RestaurantPage({
               <div>
                 <span className="text-md text-gray-500 mb-1">
                   {location?.restaurant?.categories?.at(0)?.name}
-                  {location?.ambiance?.join(" - ")}
                 </span>
               </div>
 
@@ -200,7 +206,7 @@ export default function RestaurantPage({
                     <span className="text-md text-[#6000FB]">{rating}</span>
                     <span className="text-[12px] mx-1"> {"/"}</span>
                     <span className="mr-2 text-[#6000FB]">5</span> Calificación
-                    de Google
+                    en Google
                   </span>
                 )}
                 <span className="flex items-center mt-1">
@@ -227,7 +233,7 @@ export default function RestaurantPage({
                 </span>
               </div>
               <div className="mt-2">
-                <div className="flex flex-row gap-1 mt-2">
+                <div className="flex flex-row gap-1 mt-2 flex-wrap">
                   {location?.outstandingFeatures?.map((item, itemIndex) => (
                     <Badge
                       key={itemIndex}
@@ -303,7 +309,15 @@ export default function RestaurantPage({
                   </Button>
                 </div>
                 <div>
-                  <h6 className="mb-2  font-bold">Cómo llegar</h6>
+                  <Button
+                    variant={"link"}
+                    onClick={handleNavigate}
+                    className="flex flex-row items-center pl-0"
+                  >
+                    <h6 className="font-bold f">Cómo llegar</h6>
+                    <ArrowRight />
+                  </Button>
+
                   <GoogleMapComponent
                     latLng={{
                       lat: location?.geoLocation?.lat ?? 4.60971,
@@ -315,9 +329,6 @@ export default function RestaurantPage({
                       <Map className="h-5 w-5 text-green-600" />
                       <span className="text-sm">{location?.address}</span>
                     </div>
-                    <Button variant={"link"} onClick={handleNavigate}>
-                      Como llegar
-                    </Button>
                   </div>
                 </div>
               </div>
