@@ -82,13 +82,14 @@ export default function RestaurantPage({
     if (isDesktop) {
       const message = location?.seo?.metaDescription ?? "";
       const url = `https://wa.me/?text=${encodeURIComponent(message)} ${encodeURIComponent(window.location.href)}`;
-      window.location.href = url;
+
+      window.open(url, "_blank");
       return;
     }
     console.log("navigator.userAgen", navigator.userAgent);
     const shareData = {
       title: location?.restaurant?.name,
-      text: location?.restaurant?.description,
+      text: location?.seo?.metaDescription,
       url: window.location.href,
     };
 
