@@ -40,7 +40,9 @@ export const DialogReservation = ({
           ></embed>
         </div>
         <DialogFooter>
-          <Button type="submit">Cerrar</Button>
+          <Button onClick={() => onOpenChange(false)} type="submit">
+            Cerrar
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
