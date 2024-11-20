@@ -173,6 +173,18 @@ export type Location = {
   schedule?: Array<{
     _key: string;
   } & OpeningHour>;
+  awards?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
   outstandingFeatures?: Array<string>;
   dietaryPreferences?: Array<string>;
   ambiance?: Array<string>;

@@ -5,17 +5,23 @@ import Image from "next/image";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
-import { Photo } from "@/types/sanity.custom.type";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Asset } from "@/types/sanity.custom.type";
+
+type ImageSwiperProps = {
+  photos: Asset[];
+  restaurantName: string;
+  width?: number;
+  height?: number;
+};
 
 const ImageSwiper = ({
   photos,
   restaurantName,
-}: {
-  photos: Photo[];
-  restaurantName: string;
-}) => {
+  width = 600,
+  height = 300,
+}: ImageSwiperProps) => {
   const swiperRef = useRef(null);
 
   return (
@@ -51,11 +57,11 @@ const ImageSwiper = ({
             <Image
               src={photo?.asset?.url}
               alt={restaurantName}
-              width={600}
-              height={300}
+              width={width}
+              height={height}
               style={{
-                width: 600,
-                height: 300,
+                width,
+                height,
               }}
             />
           </SwiperSlide>

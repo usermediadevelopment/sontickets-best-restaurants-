@@ -9,6 +9,7 @@ const useGetLocation = (locationSlug: string) => {
 
   const getLocation = async () => {
     const location = await getLocationBySlug(locationSlug);
+    console.log("locations", location);
     setLocation(location);
   };
 

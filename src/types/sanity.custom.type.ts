@@ -1,6 +1,6 @@
 import { Category, City, Location, Restaurant } from "./sanity";
 
-export type Photo = {
+export type Asset = {
   asset: {
     url: string;
   };
@@ -11,7 +11,7 @@ export type LocationWithRestaurant = Omit<
   "restaurant" | "photos" | "restaurant.categories"
 > & {
   restaurant?: Restaurant & { logoUrl: string };
-  photos: Photo[];
+  photos: Asset[];
   slug: {
     current: string;
   };
@@ -39,9 +39,10 @@ export interface SCity extends City {
 export interface SLocation
   extends Omit<
     Location,
-    "restaurant" | "photos" | "restaurant.categories" | "city"
+    "restaurant" | "photos" | "restaurant.categories" | "city" | "awards"
   > {
   restaurant: SRestaurant | undefined;
   city?: SCity | undefined;
-  photos: Photo[] | [];
+  photos: Asset[] | [];
+  awards: Asset[] | [];
 }

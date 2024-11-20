@@ -10,6 +10,8 @@ const useGetLocations = () => {
   const [locations, setLocations] = useState<SLocation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log("useGetLocations", locations);
+
   const params = useParams();
 
   const citySlug = params.city || "todas-ciudades";
@@ -31,6 +33,14 @@ const useGetLocations = () => {
         ...
         },
         photos[]{
+            _key,
+            _type,
+            asset->{
+              _id,
+              url
+            }
+          },
+        awards[]{
             _key,
             _type,
             asset->{

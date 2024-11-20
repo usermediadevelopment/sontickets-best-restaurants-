@@ -22,7 +22,6 @@ import {
   Calendar,
 } from "lucide-react";
 
-import GoogleMapComponent from "@/components/GoogleMapComponent";
 import { PortableText, PortableTextReactComponents } from "@portabletext/react";
 import { use, useMemo, useState } from "react";
 import { SLocation } from "@/types/sanity.custom.type";
@@ -35,15 +34,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
-import { pdfjs } from "react-pdf";
+
 import { DialogReservation } from "@/components/DialogReservation";
 import useGoogleReviews from "@/hooks/useGoogleReviews";
 import ImageSwiperComponent from "@/components/ImageSwiperComponent";
+import Image from "next/image";
+import GoogleMapComponent from "@/components/GoogleMapComponent";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
-).toString();
 export default function RestaurantPage({
   params,
 }: {
@@ -282,7 +279,7 @@ export default function RestaurantPage({
                 </div>
               </div>
 
-              <div className="my-8">
+              <div className="mt-8">
                 <h3 className="font-bold  text-lg">Descripción</h3>
                 <div className="mt-5">
                   {location?.description && (
@@ -291,6 +288,27 @@ export default function RestaurantPage({
                       components={components}
                     />
                   )}
+                </div>
+              </div>
+
+              <div className="mt-5 mb-10">
+                <h3 className="font-bold  text-lg">Reconocimientos</h3>
+                <div className="mt-5 flex flex-row gap-5">
+                  {location?.awards &&
+                    location.awards.map((award, index) => {
+                      return (
+                        <Image
+                          key={index.toString()}
+                          src={award?.asset?.url}
+                          alt={"award"}
+                          style={{
+                            borderRadius: 4,
+                          }}
+                          width={100}
+                          height={100}
+                        />
+                      );
+                    })}
                 </div>
               </div>
 
@@ -323,6 +341,7 @@ export default function RestaurantPage({
                   </Button>
 
                   <GoogleMapComponent
+                    cz-shortcut-listen="true"
                     latLng={{
                       lat: location?.geoLocation?.lat ?? 4.60971,
                       lng: location?.geoLocation?.lng ?? -74.08175,

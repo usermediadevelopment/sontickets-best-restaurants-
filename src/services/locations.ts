@@ -18,6 +18,14 @@ export const getLocationBySlug = async (locationSlug: string) => {
               url
             }
           },
+        awards[]{
+            _key,
+            _type,
+            asset->{
+              _id,
+              url
+            }
+          },
         "restaurant": restaurant->{
             ...,
             "pdfMenuUrl": pdfMenuFile.asset->url,
