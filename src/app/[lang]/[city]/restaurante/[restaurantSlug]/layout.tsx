@@ -18,10 +18,19 @@ export async function generateMetadata({ params }: never): Promise<Metadata> {
   const location = await getLocationBySlug(restaurantSlug);
 
   return {
+    alternates: {
+      canonical: `/${location?.slug?.current}`,
+    },
     title: location.seo?.metaTitle,
     description: location.seo?.metaDescription,
     openGraph: {
-      images: location?.photos?.[0].asset.url,
+      images: [
+        {
+          url: location?.photos?.[0].asset.url, // Must be an absolute URL
+          width: 800,
+          height: 600,
+        },
+      ],
     },
   };
 }
