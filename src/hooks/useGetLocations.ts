@@ -2,6 +2,7 @@
 import { client } from "@/config/sanity/client";
 
 import { SLocation } from "@/types/sanity.custom.type";
+import _ from "lodash";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -51,11 +52,11 @@ const useGetLocations = () => {
 
     const locations: SLocation[] = await client.fetch(LOCATIONS_QUERY);
 
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     setIsLoading(false);
 
-    setLocations(locations);
+    setLocations(_.shuffle(locations));
   };
 
   useEffect(() => {
