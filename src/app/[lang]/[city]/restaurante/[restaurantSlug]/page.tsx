@@ -303,7 +303,7 @@ export default function RestaurantPage({
                   onClick={() => {
                     setOpenDialogReservation(true);
                   }}
-                  className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px]  transition-colors  hidden md:block"
+                  className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px]  transition-colors "
                 >
                   Reservar Ahora
                 </Button>
