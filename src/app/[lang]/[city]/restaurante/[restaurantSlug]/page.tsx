@@ -40,12 +40,14 @@ import useGoogleReviews from "@/hooks/useGoogleReviews";
 import ImageSwiperComponent from "@/components/ImageSwiperComponent";
 import Image from "next/image";
 import GoogleMapComponent from "@/components/GoogleMapComponent";
+import useIsDesktop from "@/hooks/useIsDesktop";
 
 export default function RestaurantPage({
   params,
 }: {
   params: Promise<{ restaurantSlug: string }>;
 }) {
+  const isDesktop = useIsDesktop();
   const paramsT = use(params);
   const location = useGetLocation(paramsT.restaurantSlug);
   const { setCity, setCategory } = useUserPreferences();
@@ -77,6 +79,13 @@ export default function RestaurantPage({
   };
 
   const share = () => {
+    if (isDesktop) {
+      const message = location?.seo?.metaDescription ?? "";
+      const url = `https://wa.me/?text=${encodeURIComponent(message)} ${encodeURIComponent(window.location.href)}`;
+      window.location.href = url;
+      return;
+    }
+    console.log("navigator.userAgen", navigator.userAgent);
     const shareData = {
       title: location?.restaurant?.name,
       text: location?.restaurant?.description,
@@ -289,10 +298,19 @@ export default function RestaurantPage({
                     />
                   )}
                 </div>
+
+                <Button
+                  onClick={() => {
+                    setOpenDialogReservation(true);
+                  }}
+                  className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px]  transition-colors  hidden md:block"
+                >
+                  Reservar Ahora
+                </Button>
               </div>
 
               <div className="mt-5 mb-10">
-                <h3 className="font-bold  text-lg">Reconocimientos</h3>
+                <h3 className="font-bold  text-lg">Menciones</h3>
                 <div className="mt-5 flex flex-row gap-5">
                   {location?.awards &&
                     location.awards.map((award, index) => {
@@ -304,8 +322,8 @@ export default function RestaurantPage({
                           style={{
                             borderRadius: 4,
                           }}
-                          width={100}
-                          height={100}
+                          width={140}
+                          height={140}
                         />
                       );
                     })}
