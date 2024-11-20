@@ -1,6 +1,6 @@
 import { Category, City, Location, Restaurant } from "./sanity";
 
-type Photo = {
+export type Photo = {
   asset: {
     url: string;
   };

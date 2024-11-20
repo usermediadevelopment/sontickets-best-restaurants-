@@ -18,7 +18,6 @@ import {
   Map,
   ArrowRight,
 } from "lucide-react";
-import Image from "next/image";
 
 import GoogleMapComponent from "@/components/GoogleMapComponent";
 import { PortableText, PortableTextReactComponents } from "@portabletext/react";
@@ -36,6 +35,7 @@ import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { pdfjs } from "react-pdf";
 import { DialogReservation } from "@/components/DialogReservation";
 import useGoogleReviews from "@/hooks/useGoogleReviews";
+import ImageSwiperComponent from "@/components/ImageSwiperComponent";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -172,21 +172,10 @@ export default function RestaurantPage({
 
       <div className="flex-col ">
         <div className="flex flex-row overflow-auto">
-          {location?.photos.map((photo, index) => {
-            return (
-              <Image
-                key={`index-${index}`}
-                src={photo?.asset?.url}
-                alt={`${location?.restaurant?.name}`}
-                width={600}
-                height={300}
-                style={{
-                  width: 600,
-                  height: 300,
-                }}
-              />
-            );
-          })}
+          <ImageSwiperComponent
+            photos={location?.photos ?? []}
+            restaurantName={location?.name ?? ""}
+          />
         </div>
       </div>
       <div className="flex flex-col md:flex-row py-5 gap-4 px-5 md:px-0  container mx-auto">
