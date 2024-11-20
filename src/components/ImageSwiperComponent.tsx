@@ -44,7 +44,7 @@ const ImageSwiper = ({
 
       onSwiper={(swiper) => console.log(swiper)}
     >
-      <SwiperButtons />
+      <SwiperButtons photosNumber={photos.length} />
       {photos.map((photo, index) => {
         return (
           <SwiperSlide key={`index-${index}`}>
@@ -67,7 +67,7 @@ const ImageSwiper = ({
 
 export default memo(ImageSwiper);
 
-const SwiperButtons = () => {
+const SwiperButtons = ({ photosNumber }: { photosNumber: number }) => {
   const swiper = useSwiper();
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -95,7 +95,7 @@ const SwiperButtons = () => {
           </div>
         </div>
       )}
-      {!isEnd && (
+      {!isEnd && photosNumber > 3 && (
         <div className="swiper-button-next absolute z-[1000] top-1/2  right-4  -translate-y-1/2 ">
           <div className="flex items-center justify-center rounded-[50%]   w-10 md:w-12  h-10  md:h-12  bg-black   opacity-70  cursor-pointer">
             <ArrowRight color="white" onClick={() => swiper.slideNext()} />

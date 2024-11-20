@@ -17,6 +17,9 @@ import {
   StarIcon,
   Map,
   ArrowRight,
+  LandPlot,
+  NutOff,
+  Calendar,
 } from "lucide-react";
 
 import GoogleMapComponent from "@/components/GoogleMapComponent";
@@ -356,23 +359,42 @@ const CharacteristicsAndServices = ({
 }: CharacteristicsAndServicesProps) => {
   const services = [
     {
+      icon: <NutOff className="w-5 h-5" />,
+      title: "Preferencias Dietéticas",
+      count: 1,
+      items: location?.dietaryPreferences ?? [],
+    },
+    {
+      icon: <LandPlot className="w-5 h-5" />,
+      title: "Ambiente y experiencias",
+      count: 1,
+      items: location?.ambiance ?? [],
+    },
+    {
       icon: <HandPlatter className="w-5 h-5" />,
-      title: "Servicios",
+      title: "Servicios y facilidades",
       count: 2,
       items: location?.facilities ?? [],
+    },
+    {
+      icon: <Calendar className="w-5 h-5" />,
+      title: "Entretenimiento y Eventos",
+      count: 2,
+      items: location?.entertainment ?? [],
+    },
+
+    {
+      icon: <SquareMenu className="w-5 h-5" />,
+      title: "Adecuado para",
+      count: 4,
+      items: location?.suitableFor ?? [],
     },
 
     {
       icon: <CreditCard className="w-5 h-5" />,
       title: "Métodos de pago aceptados",
-      count: 4,
-      items: location?.paymentOptions ?? [],
-    },
-    {
-      icon: <SquareMenu className="w-5 h-5" />,
-      title: "Otros servicios",
       count: 3,
-      items: location?.entertainment ?? [],
+      items: location?.paymentOptions ?? [],
     },
   ];
 
@@ -381,33 +403,35 @@ const CharacteristicsAndServices = ({
       <h3 className="font-bold text-lg">Características y servicios</h3>
       <div className="mt-5">
         <Accordion type="single" collapsible className="w-full">
-          {services.map((service, index) => (
-            <AccordionItem
-              value={`item-${index}`}
-              key={index}
-              className={`${index ? "mt-2" : ""}`}
-            >
-              <AccordionTrigger className="hover:no-underline">
-                <div className="flex items-center w-full">
-                  <span className="mr-2">{service.icon}</span>
-                  <span>{service.title}</span>
+          {services
+            .filter((item) => item.items.length > 0)
+            .map((service, index) => (
+              <AccordionItem
+                value={`item-${index}`}
+                key={index}
+                className={`${index ? "mt-2" : ""}`}
+              >
+                <AccordionTrigger className="hover:no-underline">
+                  <div className="flex items-center w-full">
+                    <span className="mr-2">{service.icon}</span>
+                    <span>{service.title}</span>
 
-                  <ChevronDown className="ml-4 h-4 w-4 shrink-0 transition-transform duration-200" />
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="py-2 px-6">
-                {service.items.map((item, itemIndex) => (
-                  <Badge
-                    key={itemIndex}
-                    variant="default"
-                    className="mr-3 my-1 p-2 py-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
-                  >
-                    {item}
-                  </Badge>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+                    <ChevronDown className="ml-4 h-4 w-4 shrink-0 transition-transform duration-200" />
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="py-2 px-6">
+                  {service.items.map((item, itemIndex) => (
+                    <Badge
+                      key={itemIndex}
+                      variant="default"
+                      className="mr-3 my-1 p-2 py-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
+                    >
+                      {item}
+                    </Badge>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
         </Accordion>
       </div>
     </div>
