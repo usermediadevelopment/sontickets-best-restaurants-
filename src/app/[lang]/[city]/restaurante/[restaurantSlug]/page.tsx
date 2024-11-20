@@ -88,7 +88,7 @@ export default function RestaurantPage({
     }
     console.log("navigator.userAgen", navigator.userAgent);
     const shareData = {
-      title: location?.restaurant?.name,
+      title: location?.name,
       text: location?.seo?.metaDescription,
       url: window.location.href,
     };
