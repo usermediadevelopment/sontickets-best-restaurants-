@@ -27,7 +27,9 @@ export const DialogReservation = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-full md:min-w-[600px] pb-10 md:pb-5">
         <DialogHeader>
-          <DialogTitle className="text-lg">{location?.name}</DialogTitle>
+          <DialogTitle className="text-lg">
+            {location?.restaurant?.name}
+          </DialogTitle>
           <DialogDescription className="hidden">
             {
               "Reserva tu mesa y ven a disfrutar de un momento especial. Buen ambiente, sabores únicos y un lugar esperando por ti."

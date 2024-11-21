@@ -41,6 +41,11 @@ import ImageSwiperComponent from "@/components/ImageSwiperComponent";
 import Image from "next/image";
 import GoogleMapComponent from "@/components/GoogleMapComponent";
 import useIsDesktop from "@/hooks/useIsDesktop";
+import {
+  ContentShimmer,
+  ImageSwiperShimmer,
+  LocationShimmer,
+} from "@/components/loader/LocationShimmer";
 
 export default function RestaurantPage({
   params,
@@ -149,6 +154,7 @@ export default function RestaurantPage({
           </Button>
         </div>
       </div>
+
       <div className="flex items-center text-sm container mx-auto my-2  px-4 md:px-0 ">
         <Link href={"/es"}>
           <Home className="w-4 h-4" />
@@ -179,205 +185,213 @@ export default function RestaurantPage({
           <span>{location?.restaurant?.categories?.[0]?.name}</span>
         </Link>
       </div>
-
-      <div className="flex-col ">
-        <div className="flex flex-row overflow-auto">
-          <ImageSwiperComponent
-            photos={location?.photos ?? []}
-            restaurantName={location?.name ?? ""}
-          />
+      {location?._id ? (
+        <div className="flex-col">
+          <div className="flex flex-row overflow-auto">
+            <ImageSwiperComponent
+              photos={location?.photos ?? []}
+              restaurantName={location?.name ?? ""}
+            />
+          </div>
         </div>
-      </div>
-      <div className="flex flex-col md:flex-row py-5 gap-4 px-5 md:px-0  container mx-auto">
-        <div className="basis-full md:basis-10/12">
-          <div className="flex flex-col">
-            <div className="flex justify-between items-center">
-              <div>
-                <span className="text-md text-gray-500 mb-1">
-                  {location?.restaurant?.categories?.at(0)?.name}
-                </span>
-              </div>
+      ) : (
+        <ImageSwiperShimmer />
+      )}
 
-              <div>
-                <Button onClick={share} variant={"link"} className="flex">
-                  <Share2 className="h-4 w-4 mr-1" />
-                  Compartir
-                </Button>
-              </div>
-            </div>
-            <h1 className="text-3xl font-bold my-1">{location?.name}</h1>
-            <div className="flex  text-md flex-col">
-              <div className="flex flex-col">
-                {rating > 0 && (
-                  <span className="flex font-bold items-center mt-1 text-[#6000FB]">
-                    <StarIcon className="w-4 h-4 mr-1" />
-                    <span className="text-md text-[#6000FB]">{rating}</span>
-                    <span className="text-[12px] mx-1"> {"/"}</span>
-                    <span className="mr-2 text-[#6000FB]">5</span> Calificación
-                    en Google
+      {location?._id ? (
+        <div className="flex flex-col md:flex-row py-5 gap-4 px-5 md:px-0  container mx-auto">
+          <div className="basis-full md:basis-10/12">
+            <div className="flex flex-col">
+              <div className="flex justify-between items-center">
+                <div>
+                  <span className="text-md text-gray-500 mb-1">
+                    {location?.restaurant?.categories?.at(0)?.name}
                   </span>
-                )}
-                <span className="flex items-center mt-1">
-                  <MapPin className="w-4 h-4 mr-1" />
-                  {location?.address}
-                </span>
+                </div>
 
-                <span className="flex items-center mt-1">
-                  <DollarSign className="w-4 h-4 mr-1" />
-                  <span>
-                    Desde{" "}
-                    <span className="font-bold">
-                      {formatCurrency(
-                        location?.restaurant?.priceRange?.minPrice ?? 0
-                      )}{" "}
-                    </span>
-                    hasta{" "}
-                    <span className="font-bold">
-                      {formatCurrency(
-                        location?.restaurant?.priceRange?.maxPrice ?? 0
-                      )}{" "}
-                    </span>
-                  </span>
-                </span>
-              </div>
-              <div className="mt-2">
-                <div className="flex flex-row gap-1 mt-2 flex-wrap">
-                  {location?.outstandingFeatures?.map((item, itemIndex) => (
-                    <Badge
-                      key={itemIndex}
-                      variant="default"
-                      className="mr-2 my-1 p-2 py-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
-                    >
-                      {item}
-                    </Badge>
-                  ))}
+                <div>
+                  <Button onClick={share} variant={"link"} className="flex">
+                    <Share2 className="h-4 w-4 mr-1" />
+                    Compartir
+                  </Button>
                 </div>
               </div>
-
-              <div className="flex flex-col  mt-8">
-                <h3 className="font-bold  text-lg">Menú</h3>
-                <div className="flex flex-col md:flex-row mt-5 md:items-center">
-                  {location?.dietaryPreferences && (
-                    <div className="flex">
-                      <HandPlatter className="w-4 h-4" />
-                      <span className="ml-2 text-md mr-2">
-                        Opciones dietéticas
-                      </span>
-                    </div>
+              <h1 className="text-3xl font-bold my-1">{location?.name}</h1>
+              <div className="flex  text-md flex-col">
+                <div className="flex flex-col">
+                  {rating > 0 && (
+                    <span className="flex font-bold items-center mt-1 text-[#6000FB]">
+                      <StarIcon className="w-4 h-4 mr-1" />
+                      <span className="text-md text-[#6000FB]">{rating}</span>
+                      <span className="text-[12px] mx-1"> {"/"}</span>
+                      <span className="mr-2 text-[#6000FB]">5</span>{" "}
+                      Calificación en Google
+                    </span>
                   )}
+                  <span className="flex items-center mt-1">
+                    <MapPin className="w-4 h-4 mr-1" />
+                    {location?.address}
+                  </span>
 
-                  <div>
-                    {location?.dietaryPreferences?.map((item, itemIndex) => (
+                  <span className="flex items-center mt-1">
+                    <DollarSign className="w-4 h-4 mr-1" />
+                    <span>
+                      Desde{" "}
+                      <span className="font-bold">
+                        {formatCurrency(
+                          location?.restaurant?.priceRange?.minPrice ?? 0
+                        )}{" "}
+                      </span>
+                      hasta{" "}
+                      <span className="font-bold">
+                        {formatCurrency(
+                          location?.restaurant?.priceRange?.maxPrice ?? 0
+                        )}{" "}
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div className="mt-2">
+                  <div className="flex flex-row gap-1 mt-2 flex-wrap">
+                    {location?.outstandingFeatures?.map((item, itemIndex) => (
                       <Badge
                         key={itemIndex}
                         variant="default"
-                        className="mr-3 px-2 py-1 my-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
+                        className="mr-2 my-1 p-2 py-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
                       >
                         {item}
                       </Badge>
                     ))}
                   </div>
                 </div>
-                <div className="mt-2 sm:mt-0">
-                  <Link
-                    href={location?.restaurant?.pdfMenuUrl ?? ""}
-                    className="underline"
-                    target="_blank"
-                  >
-                    Ver menú
-                  </Link>
+
+                <div className="flex flex-col  mt-8">
+                  <h3 className="font-bold  text-lg">Menú</h3>
+                  <div className="flex flex-col md:flex-row mt-5 md:items-center">
+                    {location?.dietaryPreferences && (
+                      <div className="flex">
+                        <HandPlatter className="w-4 h-4" />
+                        <span className="ml-2 text-md mr-2">
+                          Opciones dietéticas
+                        </span>
+                      </div>
+                    )}
+
+                    <div>
+                      {location?.dietaryPreferences?.map((item, itemIndex) => (
+                        <Badge
+                          key={itemIndex}
+                          variant="default"
+                          className="mr-3 px-2 py-1 my-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
+                        >
+                          {item}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-2 sm:mt-0">
+                    <Link
+                      href={location?.restaurant?.pdfMenuUrl ?? ""}
+                      className="underline"
+                      target="_blank"
+                    >
+                      Ver menú
+                    </Link>
+                  </div>
                 </div>
-              </div>
 
-              <div className="mt-8">
-                <h3 className="font-bold  text-lg">Descripción</h3>
-                <div className="mt-5">
-                  {location?.description && (
-                    <PortableText
-                      value={location.description}
-                      components={components}
-                    />
-                  )}
-                </div>
+                <div className="mt-8">
+                  <h3 className="font-bold  text-lg">Descripción</h3>
+                  <div className="mt-5">
+                    {location?.description && (
+                      <PortableText
+                        value={location.description}
+                        components={components}
+                      />
+                    )}
+                  </div>
 
-                <Button
-                  onClick={() => {
-                    setOpenDialogReservation(true);
-                  }}
-                  className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px]  transition-colors "
-                >
-                  Reservar Ahora
-                </Button>
-              </div>
-
-              <div className="mt-8 mb-10">
-                <h3 className="font-bold  text-lg">Menciones</h3>
-                <div className="mt-5 flex flex-row gap-5">
-                  {location?.awards &&
-                    location.awards.map((award, index) => {
-                      return (
-                        <Image
-                          key={index.toString()}
-                          src={award?.asset?.url}
-                          alt={"award"}
-                          style={{
-                            borderRadius: 4,
-                          }}
-                          width={140}
-                          height={140}
-                        />
-                      );
-                    })}
-                </div>
-              </div>
-
-              <CharacteristicsAndServices location={location as SLocation} />
-            </div>
-          </div>
-        </div>
-        <div className="md:sticky md:top-[170px]  h-fit ">
-          <Card className="rounded-lg bg-slate-50 h-auto md:w-[400px]">
-            <CardContent className="p-6 ">
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center">
                   <Button
                     onClick={() => {
                       setOpenDialogReservation(true);
                     }}
-                    className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px]  transition-colors  hidden md:block"
+                    className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px]  transition-colors "
                   >
                     Reservar Ahora
                   </Button>
                 </div>
-                <div>
-                  <Button
-                    variant={"link"}
-                    onClick={handleNavigate}
-                    className="flex flex-row items-center pl-0"
-                  >
-                    <h6 className="font-bold f">Cómo llegar</h6>
-                    <ArrowRight />
-                  </Button>
 
-                  <GoogleMapComponent
-                    cz-shortcut-listen="true"
-                    latLng={{
-                      lat: location?.geoLocation?.lat ?? 4.60971,
-                      lng: location?.geoLocation?.lng ?? -74.08175,
-                    }}
-                  />
-                  <div className="flex   mt-4">
-                    <div className="flex items-center gap-2">
-                      <Map className="h-5 w-5 text-green-600" />
-                      <span className="text-sm">{location?.address}</span>
+                <div className="mt-8 mb-10">
+                  <h3 className="font-bold  text-lg">Menciones</h3>
+                  <div className="mt-5 flex flex-row gap-5">
+                    {location?.awards &&
+                      location.awards.map((award, index) => {
+                        return (
+                          <Image
+                            key={index.toString()}
+                            src={award?.asset?.url}
+                            alt={"award"}
+                            style={{
+                              borderRadius: 4,
+                            }}
+                            width={140}
+                            height={140}
+                          />
+                        );
+                      })}
+                  </div>
+                </div>
+
+                <CharacteristicsAndServices location={location as SLocation} />
+              </div>
+            </div>
+          </div>
+          <div className="md:sticky md:top-[170px]  h-fit ">
+            <Card className="rounded-lg bg-slate-50 h-auto md:w-[400px]">
+              <CardContent className="p-6 ">
+                <div className="space-y-4 mb-6">
+                  <div className="flex items-center">
+                    <Button
+                      onClick={() => {
+                        setOpenDialogReservation(true);
+                      }}
+                      className="bg-[#6000FB] hover:bg-[#6000FB] text-white px-4 py-2 rounded-[5px]  transition-colors  hidden md:block"
+                    >
+                      Reservar Ahora
+                    </Button>
+                  </div>
+                  <div>
+                    <Button
+                      variant={"link"}
+                      onClick={handleNavigate}
+                      className="flex flex-row items-center pl-0"
+                    >
+                      <h6 className="font-bold f">Cómo llegar</h6>
+                      <ArrowRight />
+                    </Button>
+
+                    <GoogleMapComponent
+                      cz-shortcut-listen="true"
+                      latLng={{
+                        lat: location?.geoLocation?.lat ?? 4.60971,
+                        lng: location?.geoLocation?.lng ?? -74.08175,
+                      }}
+                    />
+                    <div className="flex   mt-4">
+                      <div className="flex items-center gap-2">
+                        <Map className="h-5 w-5 text-green-600" />
+                        <span className="text-sm">{location?.address}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </div>
+      ) : (
+        <ContentShimmer />
+      )}
       {location && (
         <DialogReservation
           location={location}
