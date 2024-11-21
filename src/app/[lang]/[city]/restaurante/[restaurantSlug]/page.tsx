@@ -86,7 +86,7 @@ export default function RestaurantPage({
       window.open(url, "_blank");
       return;
     }
-    console.log("navigator.userAgen", navigator.userAgent);
+
     const shareData = {
       title: location?.name,
       text: location?.seo?.metaDescription,
@@ -310,7 +310,7 @@ export default function RestaurantPage({
                 </Button>
               </div>
 
-              <div className="mt-5 mb-10">
+              <div className="mt-8 mb-10">
                 <h3 className="font-bold  text-lg">Menciones</h3>
                 <div className="mt-5 flex flex-row gap-5">
                   {location?.awards &&

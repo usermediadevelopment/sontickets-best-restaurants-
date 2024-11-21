@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import useIsDesktop from "@/hooks/useIsDesktop";
 import { SLocation } from "@/types/sanity.custom.type";
 
 type DialogReservationProps = {
@@ -20,6 +22,7 @@ export const DialogReservation = ({
   onOpenChange,
   location,
 }: DialogReservationProps) => {
+  const isDesktop = useIsDesktop();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-full md:min-w-[600px] pb-10 md:pb-5">
@@ -35,7 +38,7 @@ export const DialogReservation = ({
           <embed
             title="reservas"
             src={location.restaurant?.reservationUrl}
-            height="700"
+            height={isDesktop ? 700 : 400}
             width="100%"
           ></embed>
         </div>
