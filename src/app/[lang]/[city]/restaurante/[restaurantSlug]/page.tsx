@@ -44,7 +44,6 @@ import useIsDesktop from "@/hooks/useIsDesktop";
 import {
   ContentShimmer,
   ImageSwiperShimmer,
-  LocationShimmer,
 } from "@/components/loader/LocationShimmer";
 
 export default function RestaurantPage({
