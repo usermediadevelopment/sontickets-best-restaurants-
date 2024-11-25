@@ -11,7 +11,6 @@ import {
   SquareMenu,
   CreditCard,
   HandPlatter,
-  ChevronDown,
   Home,
   ChevronRight,
   StarIcon,
@@ -462,12 +461,10 @@ const CharacteristicsAndServices = ({
                 key={index}
                 className={`${index ? "mt-2" : ""}`}
               >
-                <AccordionTrigger className="hover:no-underline">
+                <AccordionTrigger className="hover:no-underline justify-start flex-none gap-4">
                   <div className="flex items-center w-full">
                     <span className="mr-2">{service.icon}</span>
                     <span>{service.title}</span>
-
-                    <ChevronDown className="ml-4 h-4 w-4 shrink-0 transition-transform duration-200" />
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="py-2 px-6">
