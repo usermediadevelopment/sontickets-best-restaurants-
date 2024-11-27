@@ -36,13 +36,45 @@ export interface SCity extends City {
   another: string;
 }
 
+export type SOpeningHour = {
+  _type: "openingHour";
+  day?:
+    | "Monday"
+    | "Tuesday"
+    | "Wednesday"
+    | "Thursday"
+    | "Friday"
+    | "Saturday"
+    | "Sunday"
+    | "Lunes"
+    | "Martes"
+    | "Miércoles"
+    | "Jueves"
+    | "Viernes"
+    | "Sábado"
+    | "Domingo";
+  openingTime?: string;
+  closingTime?: string;
+  isClosed?: boolean;
+};
+
 export interface SLocation
   extends Omit<
     Location,
-    "restaurant" | "photos" | "restaurant.categories" | "city" | "awards"
+    | "restaurant"
+    | "photos"
+    | "restaurant.categories"
+    | "city"
+    | "awards"
+    | "schedule"
   > {
   restaurant: SRestaurant | undefined;
   city?: SCity | undefined;
   photos: Asset[] | [];
   awards: Asset[] | [];
+  schedule: Array<
+    {
+      _key: string;
+    } & SOpeningHour
+  >;
 }

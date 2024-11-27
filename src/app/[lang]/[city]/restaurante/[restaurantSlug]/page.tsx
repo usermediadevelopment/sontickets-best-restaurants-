@@ -23,7 +23,7 @@ import {
 
 import { PortableText, PortableTextReactComponents } from "@portabletext/react";
 import { use, useMemo, useState } from "react";
-import { SLocation } from "@/types/sanity.custom.type";
+import { SLocation, SOpeningHour } from "@/types/sanity.custom.type";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import {
@@ -38,12 +38,21 @@ import { DialogReservation } from "@/components/DialogReservation";
 import useGoogleReviews from "@/hooks/useGoogleReviews";
 import ImageSwiperComponent from "@/components/ImageSwiperComponent";
 import Image from "next/image";
-import GoogleMapComponent from "@/components/GoogleMapComponent";
+
 import useIsDesktop from "@/hooks/useIsDesktop";
 import {
   ContentShimmer,
   ImageSwiperShimmer,
 } from "@/components/loader/LocationShimmer";
+import { getDayInSpanish } from "@/lib/schedule";
+import dynamic from "next/dynamic";
+
+const GoogleMapComponent = dynamic(
+  () => import("@/components/GoogleMapComponent"),
+  {
+    ssr: false,
+  }
+);
 
 export default function RestaurantPage({
   params,
@@ -130,6 +139,15 @@ export default function RestaurantPage({
       strong: ({ children }) => <strong>{children}</strong>,
     },
   };
+
+  const schedule = useMemo(() => {
+    return location?.schedule
+      ?.filter((item) => item.closingTime && item.openingTime)
+      .map((item) => {
+        item.day = getDayInSpanish(item.day ?? "") as SOpeningHour["day"];
+        return item;
+      });
+  }, [location?.schedule]);
 
   return (
     <div className="py-8 bg-gray-100 min-h-screen relative">
@@ -362,9 +380,9 @@ export default function RestaurantPage({
                     <Button
                       variant={"link"}
                       onClick={handleNavigate}
-                      className="flex flex-row items-center pl-0"
+                      className="flex flex-row items-center pl-0 text-md"
                     >
-                      <h6 className="font-bold f">Cómo llegar</h6>
+                      <span className="font-bold text-md">Cómo llegar</span>
                       <ArrowRight />
                     </Button>
 
@@ -379,6 +397,38 @@ export default function RestaurantPage({
                       <div className="flex items-center gap-2">
                         <Map className="h-5 w-5 text-green-600" />
                         <span className="text-sm">{location?.address}</span>
+                      </div>
+                    </div>
+                    <div className="text-md mt-6">
+                      <div className="mb-2">
+                        <span className="font-bold text-md">Horarios</span>
+                      </div>
+                      <div className="flex flex-col gap-1 ">
+                        {schedule?.map((item, index) => {
+                          if (item.isClosed) {
+                            return (
+                              <div key={index.toString()}>
+                                <span className="font-bold mr-2">
+                                  {item.day}
+                                </span>
+                                <span className="text-red-500">Cerrado</span>
+                              </div>
+                            );
+                          }
+                          return (
+                            <div
+                              className="flex flex-row justify-between"
+                              key={index.toString()}
+                            >
+                              <span className="font-semibold mr-2">
+                                {item.day}
+                              </span>
+                              <span className="text-[14px]">
+                                {`${item.openingTime} - ${item.closingTime}`}
+                              </span>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
