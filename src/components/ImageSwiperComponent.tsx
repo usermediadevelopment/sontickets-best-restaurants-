@@ -50,11 +50,12 @@ const ImageSwiper = ({
 
       onSwiper={(swiper) => console.log(swiper)}
     >
-      <SwiperButtons photosNumber={photos.length} />
+      <SwiperButtonsC photosNumber={photos.length} />
       {photos.map((photo, index) => {
         return (
           <SwiperSlide key={`index-${index}`}>
             <Image
+              priority
               src={photo?.asset?.url}
               alt={restaurantName}
               width={width}
@@ -111,3 +112,5 @@ const SwiperButtons = ({ photosNumber }: { photosNumber: number }) => {
     </div>
   );
 };
+
+const SwiperButtonsC = memo(SwiperButtons);
