@@ -113,7 +113,7 @@ export default function MainLayout({
           </div>
           <div className="flex  justify-end space-x-2">
             <Sheet>
-              <SheetTrigger asChild></SheetTrigger>
+              <SheetTrigger asChild>Menu</SheetTrigger>
               <SheetContent>
                 <SheetHeader>
                   <SheetTitle>Menu</SheetTitle>
@@ -135,15 +135,15 @@ export default function MainLayout({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="flex items-center px-3 py-2 text-sm border rounded-[5px]"
+                  className="flex items-center md:px-3 py-2 text-sm border rounded-[5px]"
                 >
-                  <MapPin size={16} className="mr-2" />
-                  <span>
+                  <MapPin size={16} className="md:mr-2" />
+                  <span className="hidden  md:block">
                     {citySelected?.name ??
                       _.capitalize((params?.city as string) ?? "") ??
                       "Ciudad"}
                   </span>
-                  <ChevronDown size={16} className="ml-2" />
+                  <ChevronDown size={16} className="md:ml-2" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[200px] bg-white ">
@@ -167,6 +167,21 @@ export default function MainLayout({
               className="hidden md:inline-flex px-3 py-2 text-sm text-[#6000FB] border border-[#6000FB] rounded-[5px]"
             >
               Iniciar sesión
+            </Button>
+            <Button
+              onClick={() => router.push("/pre-registro")}
+              variant="outline"
+              className="md:hidden px-3 py-2 text-sm text-[#6000FB] border border-[#6000FB] rounded-[5px]"
+            >
+              Registro
+            </Button>
+
+            <Button
+              onClick={() => router.push("/pre-registro")}
+              variant="outline"
+              className="hidden md:inline-flex px-3 py-2 text-sm text-[#6000FB] border border-[#6000FB] rounded-[5px]"
+            >
+              Registro restaurantes
             </Button>
           </div>
         </div>
@@ -232,6 +247,13 @@ export default function MainLayout({
               />
             </div>
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+              <Button
+                variant="link"
+                onClick={() => router.push("/pre-registro")}
+                className="text-white hover:text-gray-300 transition-colors"
+              >
+                Registro de restaurantes
+              </Button>
               <Button
                 variant="link"
                 className="text-white hover:text-gray-300 transition-colors"
