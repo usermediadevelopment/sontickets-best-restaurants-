@@ -173,8 +173,8 @@ export default function RestaurantPage({
             >
               Reservar Ahora
             </Button>
-            <Button onClick={share} variant={"link"} className="flex">
-              <Share2 className="h-4 w-4 mr-1  text-white" />
+            <Button variant={"link"} className="flex m-0 p-0 pl-4 ">
+              <Share2 onClick={share} className="h-4 w-4 mr-1  text-white" />
             </Button>
           </div>
         </div>
