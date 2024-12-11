@@ -74,7 +74,6 @@ export default function MainLayout({
         );
       });
 
-      console.log("cityFound", cityFound);
       if (cityFound) {
         setCity(cityFound);
       }

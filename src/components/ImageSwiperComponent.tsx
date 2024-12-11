@@ -41,14 +41,6 @@ const ImageSwiper = ({
           slidesPerView: 3,
         },
       }}
-      onSlideChange={(swiper) =>
-        console.log("slide change", swiper.isBeginning)
-      }
-      onReachBeginning={() => console.log("onReachBeginning")}
-      onReachEnd={() => console.log("onReachEnd")}
-      // install Swiper modules
-
-      onSwiper={(swiper) => console.log(swiper)}
     >
       <SwiperButtonsC photosNumber={photos.length} />
       {photos.map((photo, index) => {

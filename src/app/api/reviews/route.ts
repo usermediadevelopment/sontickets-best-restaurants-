@@ -19,14 +19,11 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const placeId = searchParams.get("placeId");
-  console.log("placeId", placeId);
 
   try {
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating&key=${GOOGLE_MAPS_API_KEY}`
     );
-
-    console.log(">>>>response<<<<<<", response.statusText);
 
     const data: GoogleApiResponse = await response.json();
 
