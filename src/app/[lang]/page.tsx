@@ -10,7 +10,7 @@ export default function IndexPage() {
     return (
       <div className="md:mx-auto">
         <iframe
-          className="w-full md:w-[1000px] h-[100px] md:h-[1000px] pb-10"
+          className="w-full md:w-[1000px] h-[1000px] md:h-[1000px] pb-10"
           src="https://docs.google.com/forms/d/e/1FAIpQLSdTYd3ccL_hLZCsuN5qF2xQC-DKG5El7uIlOpnRMRe1HWiogQ/viewform?embedded=true"
           height={500}
           loading="lazy"
