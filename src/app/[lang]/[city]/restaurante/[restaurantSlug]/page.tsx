@@ -164,14 +164,19 @@ export default function RestaurantPage({
         </div>
 
         <div>
-          <Button
-            onClick={() => {
-              setOpenDialogReservation(true);
-            }}
-            className="bg-white hover:bg-white text-[#6000FB]  hover:text-[#6000FB]  px-4 py-2 rounded-[5px] transition-colors"
-          >
-            Reservar Ahora
-          </Button>
+          <div className="flex flex-row">
+            <Button
+              onClick={() => {
+                setOpenDialogReservation(true);
+              }}
+              className="bg-white hover:bg-white text-[#6000FB]  hover:text-[#6000FB]  px-4 py-2 rounded-[5px] transition-colors"
+            >
+              Reservar Ahora
+            </Button>
+            <Button onClick={share} variant={"link"} className="flex">
+              <Share2 className="h-4 w-4 mr-1  text-white" />
+            </Button>
+          </div>
         </div>
       </div>
 
