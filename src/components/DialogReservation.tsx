@@ -40,7 +40,7 @@ export const DialogReservation = ({
           <embed
             title="reservas"
             src={location.restaurant?.reservationUrl}
-            height={isDesktop ? 700 : 400}
+            height={isDesktop ? 550 : 400}
             width="100%"
           ></embed>
         </div>
