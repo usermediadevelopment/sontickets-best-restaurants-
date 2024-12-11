@@ -5,6 +5,16 @@ import { useMemo, useState } from "react";
 import { Button } from "./ui/button";
 import { DialogReservation } from "./DialogReservation";
 import Link from "next/link";
+import { PortableText, PortableTextReactComponents } from "next-sanity";
+
+export const components: Partial<PortableTextReactComponents> = {
+  block: {
+    normal: ({ children }) => <p className="mb-4">{children}</p>,
+  },
+  marks: {
+    strong: ({ children }) => <strong>{children}</strong>,
+  },
+};
 
 type CardLocationItemProps = {
   location: SLocation;
@@ -63,7 +73,12 @@ const CardLocationItem = ({ location }: CardLocationItemProps) => {
             <div className="flex-1">
               <h3 className="text-xl font-bold">{location.name}</h3>
               <p className="text-gray-600 mt-2 line-clamp-2">
-                {location.restaurant?.description}
+                {location?.description && (
+                  <PortableText
+                    value={location.description}
+                    components={components}
+                  />
+                )}
               </p>
             </div>
           </Link>
