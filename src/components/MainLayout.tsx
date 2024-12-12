@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { Search, ChevronDown, MapPin, Instagram } from "lucide-react";
+import { Search, ChevronDown, MapPin, Instagram, MenuIcon } from "lucide-react";
 
 import { useCities } from "@/hooks/useCities";
 import { useCategories } from "@/hooks/useCategories";
@@ -111,26 +111,7 @@ export default function MainLayout({
               />
             </div>
           </div>
-          <div className="flex  justify-end space-x-2">
-            <Sheet>
-              <SheetTrigger asChild>Menu</SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Menu</SheetTitle>
-                </SheetHeader>
-                <div className="py-4">
-                  <Button
-                    onClick={() => {
-                      window.open("https://app.sontickets.com/", "_blank");
-                    }}
-                    variant="ghost"
-                    className="w-full justify-start"
-                  >
-                    Iniciar sesión
-                  </Button>
-                </div>
-              </SheetContent>
-            </Sheet>
+          <div className="flex flex-row items-center justify-end space-x-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -138,12 +119,12 @@ export default function MainLayout({
                   className="flex items-center md:px-3 py-2 text-sm border rounded-[5px]"
                 >
                   <MapPin size={16} className="md:mr-2" />
-                  <span className="hidden  md:block">
+                  <span>
                     {citySelected?.name ??
                       _.capitalize((params?.city as string) ?? "") ??
                       "Ciudad"}
                   </span>
-                  <ChevronDown size={16} className="md:ml-2" />
+                  <ChevronDown size={16} className="ml-2" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[200px] bg-white ">
@@ -168,13 +149,6 @@ export default function MainLayout({
             >
               Iniciar sesión
             </Button>
-            <Button
-              onClick={() => router.push("/pre-registro")}
-              variant="outline"
-              className="md:hidden px-3 py-2 text-sm text-[#6000FB] border border-[#6000FB] rounded-[5px]"
-            >
-              Registro
-            </Button>
 
             <Button
               onClick={() => router.push("/pre-registro")}
@@ -183,6 +157,39 @@ export default function MainLayout({
             >
               Registro restaurantes
             </Button>
+
+            <Sheet>
+              <SheetTrigger className="md:hidden cursor-pointer" asChild>
+                <MenuIcon className="w-8 h-8" />
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <div className="py-4 flex flex-col gap-y-2">
+                  <SheetTrigger asChild>
+                    <Button
+                      onClick={() => {
+                        window.open("https://app.sontickets.com/", "_blank");
+                      }}
+                      variant="outline"
+                      className="px-3 py-2 text-sm text-[#6000FB] border border-[#6000FB] rounded-[5px]"
+                    >
+                      Iniciar sesión
+                    </Button>
+                  </SheetTrigger>
+                  <SheetTrigger asChild>
+                    <Button
+                      onClick={() => router.push("/pre-registro")}
+                      variant="outline"
+                      className="px-3 py-2 text-sm text-[#6000FB] border border-[#6000FB] rounded-[5px]"
+                    >
+                      Registro restaurantes
+                    </Button>
+                  </SheetTrigger>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
         {!params.restaurantSlug && params?.lang != "pre-registro" && (
@@ -252,7 +259,7 @@ export default function MainLayout({
                 onClick={() => router.push("/pre-registro")}
                 className="text-white hover:text-gray-300 transition-colors"
               >
-                Registro de restaurantes
+                Registro restaurantes
               </Button>
               <Button
                 variant="link"
