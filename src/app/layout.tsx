@@ -1,8 +1,9 @@
 import { UserPreferencesProvider } from "@/providers/UserPreferencesProvider";
 import "./globals.css";
 import { Poppins } from "next/font/google";
-import MainLayout from "@/components/MainLayout";
+
 import { GoogleTagManager } from "@next/third-parties/google";
+import MainLayoutComponent from "@/components/MainLayoutComponent";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -20,7 +21,7 @@ export default function RootLayout({
       <GoogleTagManager gtmId="GTM-MV333992" />
       <body className={`${poppins.className} antialiased`}>
         <UserPreferencesProvider>
-          <MainLayout>{children}</MainLayout>
+          <MainLayoutComponent>{children}</MainLayoutComponent>
         </UserPreferencesProvider>
       </body>
     </html>
