@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: never): Promise<Metadata> {
 
   return {
     alternates: {
-      canonical: `https://mejoresrestaurantes.co/es/medellin/restaurante/${location?.slug?.current}`,
+      canonical: `https://mejoresrestaurantes.co/es/${location.city?.slug?.current}/restaurante/${location?.slug?.current}`,
     },
     title: location.seo?.metaTitle,
     description: location.seo?.metaDescription,

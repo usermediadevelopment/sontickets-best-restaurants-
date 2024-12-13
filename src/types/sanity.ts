@@ -66,8 +66,10 @@ export type Review = {
 export type OpeningHour = {
   _type: "openingHour";
   day?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
-  openingTime?: string;
-  closingTime?: string;
+  openingTime?: "1:00" | "1:30" | "2:00" | "2:30" | "3:00" | "3:30" | "4:00" | "4:30" | "5:00" | "5:30" | "6:00" | "6:30" | "7:00" | "7:30" | "8:00" | "8:30" | "9:00" | "9:30" | "10:00" | "10:30" | "11:00" | "11:30" | "12:00" | "12:30";
+  openingTimeMeridiem?: "AM" | "PM";
+  closingTime?: "1:00" | "1:30" | "2:00" | "2:30" | "3:00" | "3:30" | "4:00" | "4:30" | "5:00" | "5:30" | "6:00" | "6:30" | "7:00" | "7:30" | "8:00" | "8:30" | "9:00" | "9:30" | "10:00" | "10:30" | "11:00" | "11:30" | "12:00" | "12:30";
+  closingTimeMeridiem?: "AM" | "PM";
   isClosed?: boolean;
 };
 
@@ -167,12 +169,6 @@ export type Location = {
     _type: "image";
     _key: string;
   }>;
-  menu?: Array<{
-    _key: string;
-  } & MenuCategory>;
-  schedule?: Array<{
-    _key: string;
-  } & OpeningHour>;
   awards?: Array<{
     asset?: {
       _ref: string;
@@ -185,6 +181,19 @@ export type Location = {
     _type: "image";
     _key: string;
   }>;
+  pdfMenuFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  urlMenuFile?: string;
+  schedule?: Array<{
+    _key: string;
+  } & OpeningHour>;
   outstandingFeatures?: Array<string>;
   dietaryPreferences?: Array<string>;
   ambiance?: Array<string>;
@@ -268,6 +277,7 @@ export type Restaurant = {
     };
     _type: "file";
   };
+  urlMenuFile?: string;
   website?: string;
   categories?: Array<{
     _ref: string;
@@ -325,6 +335,18 @@ export type City = {
   _rev: string;
   name?: string;
   slug?: Slug;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  description?: string;
 };
 
 export type Category = {
