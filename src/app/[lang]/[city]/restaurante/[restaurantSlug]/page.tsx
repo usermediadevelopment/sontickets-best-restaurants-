@@ -292,28 +292,7 @@ export default function RestaurantPage({
 
                 <div className="flex flex-col  mt-8">
                   <h3 className="font-bold  text-lg">Menú</h3>
-                  <div className="flex flex-col md:flex-row mt-5 md:items-center">
-                    {location?.dietaryPreferences && (
-                      <div className="flex">
-                        <HandPlatter className="w-4 h-4" />
-                        <span className="ml-2 text-md mr-2">
-                          Opciones dietéticas
-                        </span>
-                      </div>
-                    )}
 
-                    <div>
-                      {location?.dietaryPreferences?.map((item, itemIndex) => (
-                        <Badge
-                          key={itemIndex}
-                          variant="default"
-                          className="mr-3 px-2 py-1 my-1 rounded-sm bg-[#6000FB] hover:bg-[#6000FB] "
-                        >
-                          {item}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
                   <div className="mt-2 sm:mt-0">
                     <Link
                       href={location?.restaurant?.pdfMenuUrl ?? ""}
