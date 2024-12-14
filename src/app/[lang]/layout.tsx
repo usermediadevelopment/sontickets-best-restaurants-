@@ -13,7 +13,18 @@ export type Props = {
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Mejores Restaurantes",
-    description: "Descubre los mejores restaurantes de tu ciudad",
+    description:
+      "Explora los mejores restaurantes de Colombia. Encuentra experiencias gastronómicas únicas y recomendaciones en tu ciudad favorita",
+    openGraph: {
+      images: [
+        {
+          url: "https://mejoresrestaurantes.co/_next/image?url=%2Flogo.png&w=384&q=75",
+          width: 800,
+          height: 600,
+          alt: "Mejores Restaurantes",
+        },
+      ],
+    },
   };
 }
 
