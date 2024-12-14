@@ -1,10 +1,10 @@
 "use client";
-import { Area, Category, City } from "@/types/sanity";
+import { Area, Category } from "@/types/sanity";
 import { SCategory, SCity } from "@/types/sanity.custom.type";
 import React, { createContext, useReducer, ReactNode } from "react";
 
 type UserPreferences = {
-  city: City;
+  city: SCity;
   category: Category;
   area: Area;
 };
@@ -21,7 +21,7 @@ export const UserPreferencesContext = createContext<
 >(undefined);
 
 type Action =
-  | { type: "SET_CITY"; payload: City }
+  | { type: "SET_CITY"; payload: SCity }
   | { type: "SET_CATEGORY"; payload: Category }
   | { type: "SET_AREA"; payload: Area };
 
@@ -47,12 +47,13 @@ export const UserPreferencesProvider = ({
   children: ReactNode;
 }) => {
   const [preferences, dispatch] = useReducer(preferencesReducer, {
-    city: {} as City,
+    city: {} as SCity,
     category: {} as Category,
     area: {} as Area,
   });
 
-  const setCity = (city: City) => dispatch({ type: "SET_CITY", payload: city });
+  const setCity = (city: SCity) =>
+    dispatch({ type: "SET_CITY", payload: city });
   const setCategory = (category: Category) =>
     dispatch({ type: "SET_CATEGORY", payload: category });
   const setArea = (area: Area) => dispatch({ type: "SET_AREA", payload: area });
