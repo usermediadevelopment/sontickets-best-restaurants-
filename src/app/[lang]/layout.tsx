@@ -15,6 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Mejores Restaurantes",
     description:
       "Explora los mejores restaurantes de Colombia. Encuentra experiencias gastronómicas únicas y recomendaciones en tu ciudad favorita",
+
+    alternates: {
+      canonical: "https://mejoresrestaurantes.co/",
+    },
     openGraph: {
       images: [
         {

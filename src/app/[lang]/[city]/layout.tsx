@@ -18,6 +18,9 @@ export async function generateMetadata({ params }: never): Promise<Metadata> {
   return {
     title: "Mejores restaurantes en " + cityFound.name,
     description: cityFound.description,
+    alternates: {
+      canonical: `https://mejoresrestaurantes.co/es/${cityFound?.slug?.current}`,
+    },
     openGraph: {
       images: [
         {
