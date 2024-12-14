@@ -11,7 +11,7 @@ export type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: never): Promise<Metadata> {
   const { city: citySlug } = await params;
   const cityFound = await getCityBySlug(citySlug);
   console.log("cityFound", cityFound);
