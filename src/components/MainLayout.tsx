@@ -119,11 +119,17 @@ export default function MainLayout({
                   className="flex items-center md:px-3 py-2 text-sm border rounded-[5px]"
                 >
                   <MapPin size={16} className="md:mr-2" />
-                  <span>
+                  <span className="hidden md:inline">
                     {citySelected?.name ??
                       _.capitalize(
                         (params?.city as string) ?? "Escoge una ciudad"
                       ) ??
+                      "Ciudad "}
+                  </span>
+
+                  <span className="md:hidden">
+                    {citySelected?.name ??
+                      _.capitalize((params?.city as string) ?? "Ciudad") ??
                       "Ciudad "}
                   </span>
                   <ChevronDown size={16} className="ml-2" />
