@@ -121,8 +121,10 @@ export default function MainLayout({
                   <MapPin size={16} className="md:mr-2" />
                   <span>
                     {citySelected?.name ??
-                      _.capitalize((params?.city as string) ?? "") ??
-                      "Ciudad"}
+                      _.capitalize(
+                        (params?.city as string) ?? "Escoge una ciudad"
+                      ) ??
+                      "Ciudad "}
                   </span>
                   <ChevronDown size={16} className="ml-2" />
                 </Button>
