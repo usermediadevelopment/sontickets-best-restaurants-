@@ -13,7 +13,7 @@ const poppins = Poppins({
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Mejores Restaurantes",
+    title: "Mejores Restaurantes en tu ciudad",
     description:
       "Explora los mejores restaurantes de Colombia. Encuentra experiencias gastronómicas únicas y recomendaciones en tu ciudad favorita",
 
