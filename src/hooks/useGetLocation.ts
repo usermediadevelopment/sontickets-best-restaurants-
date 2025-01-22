@@ -10,7 +10,9 @@ const useGetLocation = (locationSlug: string) => {
   const getLocation = async () => {
     const location = await getLocationBySlug(locationSlug);
 
-    setLocation(location);
+    if (location) {
+      setLocation(location);
+    }
   };
 
   useEffect(() => {

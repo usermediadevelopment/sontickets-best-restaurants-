@@ -3,11 +3,6 @@ import { getEnabledValueForEnv } from "@/lib/utils";
 import { SLocation } from "@/types/sanity.custom.type";
 
 export const getLocationBySlug = async (locationSlug: string) => {
-  console.log(
-    "Estás en el entorno de vista previa de Vercel",
-    getEnabledValueForEnv()
-  );
-
   const LOCATIONS_QUERY = `
         *[
         _type == "location" && slug.current == "${locationSlug}" && enabled == ${getEnabledValueForEnv()}
