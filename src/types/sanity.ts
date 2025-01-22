@@ -41,13 +41,7 @@ export type SanityImageDimensions = {
 
 export type SocialMedia = {
   _type: "socialMedia";
-  platform?:
-    | "Facebook"
-    | "Twitter"
-    | "Instagram"
-    | "LinkedIn"
-    | "TikTok"
-    | "YouTube";
+  platform?: "Facebook" | "Twitter" | "Instagram" | "LinkedIn" | "TikTok" | "YouTube";
   url?: string;
 };
 
@@ -71,66 +65,9 @@ export type Review = {
 
 export type OpeningHour = {
   _type: "openingHour";
-  day?:
-    | "Monday"
-    | "Tuesday"
-    | "Wednesday"
-    | "Thursday"
-    | "Friday"
-    | "Saturday"
-    | "Sunday";
-  openingTime?:
-    | "1:00"
-    | "1:30"
-    | "2:00"
-    | "2:30"
-    | "3:00"
-    | "3:30"
-    | "4:00"
-    | "4:30"
-    | "5:00"
-    | "5:30"
-    | "6:00"
-    | "6:30"
-    | "7:00"
-    | "7:30"
-    | "8:00"
-    | "8:30"
-    | "9:00"
-    | "9:30"
-    | "10:00"
-    | "10:30"
-    | "11:00"
-    | "11:30"
-    | "12:00"
-    | "12:30";
-  openingTimeMeridiem?: "AM" | "PM";
-  closingTime?:
-    | "1:00"
-    | "1:30"
-    | "2:00"
-    | "2:30"
-    | "3:00"
-    | "3:30"
-    | "4:00"
-    | "4:30"
-    | "5:00"
-    | "5:30"
-    | "6:00"
-    | "6:30"
-    | "7:00"
-    | "7:30"
-    | "8:00"
-    | "8:30"
-    | "9:00"
-    | "9:30"
-    | "10:00"
-    | "10:30"
-    | "11:00"
-    | "11:30"
-    | "12:00"
-    | "12:30";
-  closingTimeMeridiem?: "AM" | "PM";
+  day?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+  openingTime?: string;
+  closingTime?: string;
   isClosed?: boolean;
 };
 
@@ -159,11 +96,9 @@ export type MenuItem = {
 export type MenuCategory = {
   _type: "menuCategory";
   categoryName?: string;
-  items?: Array<
-    {
-      _key: string;
-    } & MenuItem
-  >;
+  items?: Array<{
+    _key: string;
+  } & MenuItem>;
 };
 
 export type Location = {
@@ -232,6 +167,12 @@ export type Location = {
     _type: "image";
     _key: string;
   }>;
+  menu?: Array<{
+    _key: string;
+  } & MenuCategory>;
+  schedule?: Array<{
+    _key: string;
+  } & OpeningHour>;
   awards?: Array<{
     asset?: {
       _ref: string;
@@ -244,21 +185,6 @@ export type Location = {
     _type: "image";
     _key: string;
   }>;
-  pdfMenuFile?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    _type: "file";
-  };
-  urlMenuFile?: string;
-  schedule?: Array<
-    {
-      _key: string;
-    } & OpeningHour
-  >;
   outstandingFeatures?: Array<string>;
   dietaryPreferences?: Array<string>;
   ambiance?: Array<string>;
@@ -342,7 +268,6 @@ export type Restaurant = {
     };
     _type: "file";
   };
-  urlMenuFile?: string;
   website?: string;
   categories?: Array<{
     _ref: string;
@@ -357,11 +282,9 @@ export type Restaurant = {
     currency?: "COP" | "EUR" | "GBP";
   };
   contactEmail?: string;
-  socialMedia?: Array<
-    {
-      _key: string;
-    } & SocialMedia
-  >;
+  socialMedia?: Array<{
+    _key: string;
+  } & SocialMedia>;
   seo?: Seo;
 };
 
@@ -402,18 +325,6 @@ export type City = {
   _rev: string;
   name?: string;
   slug?: Slug;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  description?: string;
 };
 
 export type Category = {
@@ -501,29 +412,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes =
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SocialMedia
-  | Review
-  | OpeningHour
-  | MenuItem
-  | MenuCategory
-  | Location
-  | ContactInfo
-  | Geopoint
-  | Area
-  | Country
-  | Restaurant
-  | Seo
-  | SanityFileAsset
-  | City
-  | Category
-  | SanityImageCrop
-  | SanityImageHotspot
-  | SanityImageAsset
-  | SanityAssetSourceData
-  | SanityImageMetadata
-  | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SocialMedia | Review | OpeningHour | MenuItem | MenuCategory | Location | ContactInfo | Geopoint | Area | Country | Restaurant | Seo | SanityFileAsset | City | Category | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

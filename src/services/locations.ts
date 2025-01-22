@@ -1,10 +1,16 @@
 import { client } from "@/config/sanity/client";
+import { getEnabledValueForEnv } from "@/lib/utils";
 import { SLocation } from "@/types/sanity.custom.type";
 
 export const getLocationBySlug = async (locationSlug: string) => {
+  console.log(
+    "Estás en el entorno de vista previa de Vercel",
+    getEnabledValueForEnv()
+  );
+
   const LOCATIONS_QUERY = `
         *[
-        _type == "location" && slug.current == "${locationSlug}"
+        _type == "location" && slug.current == "${locationSlug}" && enabled == ${getEnabledValueForEnv()}
         ]{
         ...,
         "city": city->{
@@ -36,8 +42,11 @@ export const getLocationBySlug = async (locationSlug: string) => {
         }
         }
       `;
-
-  const locations: SLocation[] = await client.fetch(LOCATIONS_QUERY);
-
-  return locations?.[0] ?? null;
+  try {
+    const locations: SLocation[] = await client.fetch(LOCATIONS_QUERY);
+    return locations?.[0] ?? null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };

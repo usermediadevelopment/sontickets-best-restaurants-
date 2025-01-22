@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { client } from "@/config/sanity/client";
+import { getEnabledValueForEnv } from "@/lib/utils";
 
 import { SLocation } from "@/types/sanity.custom.type";
 import _ from "lodash";
@@ -24,7 +25,7 @@ const useGetLocations = () => {
     const cityQuery = `&& city->slug.current == "${citySlug}"`;
     const LOCATIONS_QUERY = `
         *[
-        _type == "location"  ${citySlug && citySlug != "todas-ciudades" ? cityQuery : ""}  ${categorySlug && categorySlug != "todas-categorias" ? categoryQuery : ""}
+        _type == "location"  ${citySlug && citySlug != "todas-ciudades" ? cityQuery : ""}  ${categorySlug && categorySlug != "todas-categorias" ? categoryQuery : ""} & enabled == ${getEnabledValueForEnv()}
         ]{
         ...,
         "city": city->{
