@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       reviews: [],
       rating: 0,
       error:
-        error instanceof Error ? error.message : "An unknown error occurred",
+        error instanceof Error ? error.message : "An unknown error occurre",
     });
   }
 }

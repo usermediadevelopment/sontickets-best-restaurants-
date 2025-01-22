@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getEnabledValueForEnv = () => {
-  const env = process.env.VERCEL_ENV;
-  if (env == "preview") {
+  const env = process.env.NEXT_PUBLIC_VERCEL_ENV;
+  if (env === "preview") {
     return "false";
   } else {
     return "true";
