@@ -35,6 +35,7 @@ export interface SCategory extends Category {
 export interface SCity extends Omit<City, "image"> {
   another: string;
   image: Asset;
+  description: string;
 }
 
 export type SOpeningHour = {
