@@ -25,7 +25,7 @@ const useGetLocations = () => {
     const cityQuery = `&& city->slug.current == "${citySlug}"`;
     const LOCATIONS_QUERY = `
         *[
-        _type == "location"  ${citySlug && citySlug != "todas-ciudades" ? cityQuery : ""}  ${categorySlug && categorySlug != "todas-categorias" ? categoryQuery : ""} & enabled == ${getEnabledValueForEnv()}
+        _type == "location"  ${citySlug && citySlug != "todas-ciudades" ? cityQuery : ""}  ${categorySlug && categorySlug != "todas-categorias" ? categoryQuery : ""} && enabled == ${getEnabledValueForEnv()}
         ]{
         ...,
         "city": city->{
