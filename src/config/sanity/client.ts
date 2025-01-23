@@ -6,5 +6,4 @@ export const client = createClient({
   apiVersion: "v1",
   token: process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
   useCdn: true,
-  perspective: "published",
 });
